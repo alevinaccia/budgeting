@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../assets/fav.png">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3da58c21ae.js" crossorigin="anonymous"></script>
+    <title>Budget yourself!</title>
+</head>
+
+<body>
+    <div class="backgrond-nav">
+        <nav class="main-nav">
+            <img src="../../assets/fav.png">
+            <ul class="nav-list">
+                <li class="selected">Main</li>
+                <li class="not-selected">Goals</li>
+                <li class="not-selected">Budget</li>
+                <li class="not-selected">Settings</li>
+            </ul>
+        </nav>
+    </div>
+    <hr>
+    <section class="main">
+        <div class="balanceWrapper">
+            <h1 class="balance">0
+                <h2 class="currency">€</h2>
+            </h1>
+        </div>
+        <div class="container">
+            <section class="transactions">
+            </section>
+            <section class="form display-none">
+                <i class="fas fa-times close fa-2x"></i>
+                <div>
+                    <input type="checkbox" id="slider" class="slider" checked="true">
+                    <label for="slider" class="label">
+                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-minus"></i>
+                        <div class="ball"></div>
+                    </label>
+                </div>
+                <div>
+                    <input type="number" class="valueInput" min=0 value="0">
+                    <input type="text" placeholder="Placeholder" class="text">
+                </div>
+                <div class="recursiveWrapper">
+                    <input type="checkbox" class="recursiveBox" name="recursive">
+                    <label for="recursive" class="recursiveText">Recursive</label>
+                </div>
+                <select name="category" class="category">
+                    <option value="Lavoro">Lavoro</option>
+                    <option value="Benzina">Benzina</option>
+                    <option value="Cibo">Cibo</option>
+                    <option value="Imprevisti">Imprevisti</option>
+                </select>
+                <label for="ammountToSave" class="ammountLabel">Save something?</label>
+                <div class="range">
+                    <div class="sliderValue">
+                        <span class="bubble">100</span>
+                    </div>
+                    <div class="field">
+                        <div class="value min">0</div>
+                        <input type="range" name="ammountToSave" class="ammountToSave" value="0" min="0" max="100"
+                            step="1">
+                        <div class="value max">100</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <button class="addBTN">Add Transaction</button>
+    </section>
+    <script src="interfaceManager.js"></script>
+    <script src="reqManager.js"></script>
+</body>
+
+</html>
