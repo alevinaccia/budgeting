@@ -35,6 +35,10 @@
         </div>
         <div class="container">
             <section class="transactions">
+                <div class="empty">
+                    <div class="emptyMessage display-none">Looks empty there... start adding transactions by clicking
+                        the button below</div>
+                </div>
             </section>
             <section class="form display-none">
                 <i class="fas fa-times close fa-2x"></i>
@@ -53,8 +57,16 @@
                 <div class="recursiveWrapper">
                     <input type="checkbox" class="recursiveBox" name="recursive">
                     <label for="recursive" class="recursiveText">Recursive</label>
+                    <div>
+                        <select name="period" class="period display-none">
+                            <option value="daily">Daily</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                    </div>
                 </div>
                 <select name="category" class="category">
+                    <option value="none">---</option>
                     <option value="Lavoro">Lavoro</option>
                     <option value="Benzina">Benzina</option>
                     <option value="Cibo">Cibo</option>
@@ -78,6 +90,7 @@
     </section>
     <script src="interfaceManager.js"></script>
     <script src="reqManager.js"></script>
+    <script src="../prototypeFunctions.js"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@ const transactionSchema = new mongoose.Schema({
     value : {
         type : Number,
         required : true,
-        min : 0
+        min : 0.1
     },
     date : {
         type : String, 
@@ -14,10 +14,6 @@ const transactionSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    recursive : {
-        type : Boolean,
-        required : true
-    },
     ammountToSave : {
         type : Number,
         required : true
@@ -25,6 +21,17 @@ const transactionSchema = new mongoose.Schema({
     type : {
         type : Boolean, 
         required : true
+    },
+    text : {
+        type : String,
+        max : 24,
+        required : true
+    },
+    recursivePeriod : {
+        type : String
+    },
+    nextAddition : {
+        type : String
     }
 })
 
