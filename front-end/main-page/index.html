@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../../assets/fav.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../generalStyle.css">
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
@@ -19,10 +20,10 @@
         <nav class="main-nav">
             <img src="../../assets/fav.png">
             <ul class="nav-list">
-                <li class="selected">Main</li>
-                <li class="not-selected">Goals</li>
-                <li class="not-selected">Budget</li>
-                <li class="not-selected">Settings</li>
+                <li class="selected" id="main">Main</li>
+                <li class="not-selected" id="savings">Savings</li>
+                <li class="not-selected" id="budget">Budget</li>
+                <li class="not-selected" id="settings">Settings</li>
             </ul>
         </nav>
     </div>
@@ -65,13 +66,9 @@
                         </select>
                     </div>
                 </div>
-                <select name="category" class="category">
-                    <option value="none">---</option>
-                    <option value="Lavoro">Lavoro</option>
-                    <option value="Benzina">Benzina</option>
-                    <option value="Cibo">Cibo</option>
-                    <option value="Imprevisti">Imprevisti</option>
-                </select>
+                <input list="category-list" type="text" placeholder="Category" class="category-list">
+                <datalist id="category-list">
+                </datalist>
                 <label for="ammountToSave" class="ammountLabel">Save something?</label>
                 <div class="range">
                     <div class="sliderValue">
@@ -91,6 +88,7 @@
     <script src="interfaceManager.js"></script>
     <script src="reqManager.js"></script>
     <script src="../prototypeFunctions.js"></script>
+    <script src="../pageChanger.js"></script>
 </body>
 
 </html>

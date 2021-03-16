@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../assets/fav.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../generalStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3da58c21ae.js" crossorigin="anonymous"></script>
+    <title>Budget yourself!</title>
+</head>
+
+<body>
+    <div class="backgrond-nav">
+        <nav class="main-nav">
+            <img src="../../assets/fav.png">
+            <ul class="nav-list">
+                <li class="not-selected" id="main">Main</li>
+                <li class="selected" id="savings">Savings</li>
+                <li class="not-selected" id="budget">Budget</li>
+                <li class="not-selected" id="settings">Settings</li>
+            </ul>
+        </nav>
+    </div>
+    <hr>
+    <div class="main">
+        <div class="container">
+            <section class="savings">
+                    <div class="saving">
+                        <input type="checkbox">
+                        <i class="fas fa-first-aid fa-3x"></i>
+                        <div class="inner">
+                            <span class="text">Emergency Found</span>
+                            <span class="ammount">Here goes the 10% of all your incomes</span>
+                        </div>
+                        <span class="savingValue">100€</span>
+                    </div>
+                <div class="saving">
+                    <input type="checkbox">
+                    <i class="fas fa-laptop fa-3x"></i>
+                    <div class="inner">
+                        <span class="text">Mac</span>
+                        <span class="ammount">Manually added when you add a new transaction</span>
+                    </div>
+                    <span class="savingValue">200€</span>
+                </div>
+                <div class="saving">
+                    <input type="checkbox">
+                    <i class="far fa-file-alt fa-3x"></i>
+                    <div class="inner">
+                        <span class="text">Test prova</span>
+                        <span class="ammount">Here goes 5€ a week</span>
+                    </div>
+                    <span class="savingValue">100€</span>
+                </div>
+            </section>
+        </div>
+        <button class="addBTN">Add saving!</button>
+    </div>
+    <script src="../pageChanger.js"></script>
+    <script src="interfaceManager.js"></script>
+</body>
+
+</html>

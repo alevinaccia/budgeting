@@ -29,12 +29,12 @@ const remove = async (id) => {
 }
 
 const edit = async (id, newValue, newMessage) => {
-    let preEdit = await Transaction.findById(id);
+    let preEdit = await Transaction.findById(id);c
     await Transaction.updateOne({_id : id} , {
-        value : newValue,
-        text : newMessage
+        value : newValue || preEdit.value,
+        text : newMessage || preEdit.text
     });
-    return [await Transaction.findOne({_id : id}), newValue - preEdit.value];
+    return [await Transaction.findOne({_id : id}), newValue ? (newValue - preEdit.value) : 0];
 } 
 
 const calculateNextAddition = (period) => {
@@ -69,8 +69,4 @@ const updateRecursive = async () => {
     })
 }
 
-exports.create = create;
-exports.get = get;
-exports.remove = remove;
-exports.edit = edit;
-exports.updateRecursive = updateRecursive;
+module.exports = {create, get , remove , edit , updateRecursive}

@@ -2,7 +2,8 @@ const addBTN = document.querySelector('.addBTN');
 const valueInput = document.querySelector('.valueInput');
 const transactionsContainer = document.querySelector('.transactions');
 const recursive = document.querySelector('.recursiveBox');
-const category = document.querySelector('.category');
+const category = document.querySelector('.category-list');
+const categoryList = document.getElementById('category-list');
 const message = document.querySelector('.text');
 const formContainer = document.querySelector('.form');
 const switchElement = document.querySelector('.slider');
@@ -20,6 +21,7 @@ const newText = document.querySelector('.textEdit');
 
 window.onload = () => {
     fillContainer();
+    loadCategories();
 }
 
 addBTN.addEventListener('click', async () => {
@@ -37,7 +39,8 @@ addBTN.addEventListener('click', async () => {
         if(response.message){
             handleError(response.message);
         }else{
-            addTransactionToView(response);
+            addTransactionToView(response.transaction);
+            addCategory(response.option);
             switchContainer();
         }
     }
@@ -88,6 +91,19 @@ const updateList = (list) => {
     }
 }
 
+const updateCategories = (list) => {
+    const array = Array.from(list);
+    array.forEach((cat) => {
+        addCategory(cat);
+    })
+}
+
+const addCategory = (cat) => {   
+    const option = document.createElement('option');
+    option.setAttribute('value', cat.name);
+    categoryList.appendChild(option);
+}
+
 const switchContainer = () => {
     container.style.background = "rgba(46 ,51 ,78, 0.3)"
     transactionsContainer.classList.toggle('display-none');
@@ -111,7 +127,6 @@ const updateBalance = (transaction, operation) => {
 const updateBalanceByDifference = (difference) => {
     let currentBalance = Number(balance.textContent);
     balance.textContent = currentBalance + difference;
-    console.log(difference);
 }
 
 const addTransactionToView = (transaction) => {
@@ -168,6 +183,7 @@ const addTransactionToView = (transaction) => {
     confirm.addEventListener('click' ,async (event) => {
         let id = event.target.parentNode.parentNode.parentNode.id;
         await edit(id, numberEdit.value, textEdit.value);
+        
     })
     cancel.addEventListener('click', (event) => {
         toggleEdit(event.target.parentNode.parentNode.parentNode.id);
@@ -196,6 +212,10 @@ const updateTransaction = (transaction, difference) => {
     toggleEdit(transaction._id);
     let div = document.getElementById(`${transaction._id}`);
     div.childNodes[0].textContent = `${transaction.value}€  ${transaction.text}`;
+    div.childNodes[2].childNodes[0].setAttribute('placeholder', `${transaction.value}`);
+    div.childNodes[2].childNodes[0].value = ''
+    div.childNodes[2].childNodes[2].setAttribute('placeholder', `${transaction.text}`);
+    div.childNodes[2].childNodes[2].value = ''
     updateBalanceByDifference(difference);
 }
 
@@ -228,6 +248,8 @@ const clearForm = () => {
     //AmmountToSave
     document.querySelector('.max').textContent = "100";
     ammountToSave.value = 0;
+    //Category
+    category.value = "";
 }
 
 const toggleEdit = (id) => {
