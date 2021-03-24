@@ -14,71 +14,20 @@ const close = document.querySelector('.close');
 const balance = document.querySelector('.balance');
 const emptyMessage = document.querySelector('.emptyMessage');
 const recursivePeriod = document.querySelector('.period');
+const budgetCheck = document.querySelector('.budget-check');
+const budgetSettings = document.querySelector('.budget-settings');
+const budgetValue = document.querySelector('.budget-value');
+const budgetCheckbox = document.querySelector('.budget-checker');
 
 //Edit mode
 const newValue = document.querySelector('.numberEdit');
 const newText = document.querySelector('.textEdit');
 
 window.onload = () => {
+    addListners();
     fillContainer();
     loadCategories();
 }
-
-addBTN.addEventListener('click', async () => {
-    if (formContainer.classList.contains('display-none')) {
-        switchContainer();
-        clearForm();
-    } else {
-        //The "add" method return the new transaction added to the database, so we can update the UI
-        let period = null;
-        if(recursive.checked){
-            period = recursivePeriod.value;
-        }
-
-        let response = await add(switchElement.checked, valueInput.value, period,category.value, ammountToSave.value, message.value);
-        if(response.message){
-            handleError(response.message);
-        }else{
-            addTransactionToView(response.transaction);
-            addCategory(response.option);
-            switchContainer();
-        }
-    }
-})
-//Change the bg color of the main container based on the switch position
-switchElement.addEventListener('change', () => {
-    switchElement.checked ? container.style.background = 'rgba(0 ,255 ,0, 0.3)' : container.style.background = 'rgba(255, 0, 0, 0.3)';
-})
-
-close.addEventListener('click', () => {
-    switchContainer();
-})
-
-ammountToSave.addEventListener('input', () => {
-    let value = ammountToSave.value;
-    bubble.textContent = value;
-    //Interopolates in base 100
-    bubble.style.left = ((100 * value) / ammountToSave.max) + "%";
-    bubble.classList.add("show");
-})
-
-ammountToSave.addEventListener('blur', () => {
-    bubble.classList.remove("show");
-})
-
-valueInput.addEventListener('change', (event) => {
-    document.querySelector('.max').textContent = event.target.value;
-    ammountToSave.setAttribute('max', event.target.value);
-    ammountToSave.value = 0;
-})
-
-valueInput.addEventListener('focus', () => {
-    if (valueInput.value == 0) valueInput.value = '';
-})
-
-recursive.addEventListener('click', () => {
-    recursivePeriod.classList.toggle('display-none');
-})
 
 const updateList = (list) => {
     let array = Array.from(list);
@@ -98,7 +47,7 @@ const updateCategories = (list) => {
     })
 }
 
-const addCategory = (cat) => {   
+const addCategory = (cat) => {
     const option = document.createElement('option');
     option.setAttribute('value', cat.name);
     categoryList.appendChild(option);
@@ -108,7 +57,6 @@ const switchContainer = () => {
     container.style.background = "rgba(46 ,51 ,78, 0.3)"
     transactionsContainer.classList.toggle('display-none');
     formContainer.classList.toggle('display-none');
-    container.classList.toggle('scroll-none');
 }
 
 const updateBalance = (transaction, operation) => {
@@ -130,7 +78,7 @@ const updateBalanceByDifference = (difference) => {
 }
 
 const addTransactionToView = (transaction) => {
-    if(!emptyMessage.classList.contains('display-none')) emptyMessage.classList.toggle('display-none');
+    if (!emptyMessage.classList.contains('display-none')) emptyMessage.classList.toggle('display-none');
 
     //Create
     let div = document.createElement('div');
@@ -150,7 +98,7 @@ const addTransactionToView = (transaction) => {
 
     //Edit-mode
     let editDiv = document.createElement('div');
-    editDiv.setAttribute('class', 'edit display-none'); 
+    editDiv.setAttribute('class', 'edit display-none');
     let icons = document.createElement('div');
     icons.setAttribute('class', "iconsEdit");
     let confirm = document.createElement('i');
@@ -180,10 +128,10 @@ const addTransactionToView = (transaction) => {
     penIcon.addEventListener('click', (event) => {
         toggleEdit(event.target.parentNode.parentNode.id);
     })
-    confirm.addEventListener('click' ,async (event) => {
+    confirm.addEventListener('click', async (event) => {
         let id = event.target.parentNode.parentNode.parentNode.id;
         await edit(id, numberEdit.value, textEdit.value);
-        
+
     })
     cancel.addEventListener('click', (event) => {
         toggleEdit(event.target.parentNode.parentNode.parentNode.id);
@@ -220,15 +168,15 @@ const updateTransaction = (transaction, difference) => {
 }
 
 const handleError = (err) => {
-    if(err.search('value') > -1){
+    if (err.search('value') > -1) {
         valueInput.style.border = "2px solid red";
-    }else{
+    } else {
         valueInput.style.border = "";
     }
 
-    if(err.search('text') > -1){
+    if (err.search('text') > -1) {
         message.style.border = "2px solid red";
-    }else{
+    } else {
         message.style.border = "";
     }
 }
@@ -250,6 +198,11 @@ const clearForm = () => {
     ammountToSave.value = 0;
     //Category
     category.value = "";
+    //Budget
+    budgetValue.value = "";
+    budgetCheckbox.checked = false;
+    budgetSettings.classList.add('display-none');
+    budgetCheck.classList.add('display-none');
 }
 
 const toggleEdit = (id) => {
@@ -257,4 +210,92 @@ const toggleEdit = (id) => {
     div.children[0].classList.toggle('display-none');
     div.children[1].classList.toggle('display-none');
     div.children[2].classList.toggle('display-none');
+}
+
+// --------------- //
+const addListners = () => {
+    addBTN.addEventListener('click', async () => {
+        if (formContainer.classList.contains('display-none')) {
+            switchContainer();
+            clearForm();
+        } else {
+            //The "add" method return the new transaction added to the database, so we can update the UI
+            let period = null;
+            let budget;
+            if (recursive.checked) {
+                period = recursivePeriod.value;
+            }
+            if(switchElement.checked){
+                budget = budgetCheckbox.checked;
+            }else{
+                budget = false;
+            }
+
+            let response = await add(
+                switchElement.checked, //income or outcome
+                valueInput.value,      //Value 
+                period,                //Recursive period 
+                category.value,        //Category 
+                ammountToSave.value,   //Ammount to save 
+                message.value,         //Message
+                budget,                //Does the category need a budget 
+                budget == false ? '' : budgetValue.value  
+            );
+
+            if (response.message) {
+                handleError(response.message);
+            } else {
+                addTransactionToView(response.transaction);
+                if (response.option)
+                    addCategory(response.cat);
+                switchContainer();
+            }
+        }
+    })
+
+    //Change the bg color of the main container based on the switch position
+    switchElement.addEventListener('change', () => {
+        if (switchElement.checked) {
+            container.style.background = 'rgba(0 ,255 ,0, 0.3)';
+            budgetCheck.classList.toggle('display-none');
+        } else {
+            container.style.background = 'rgba(255, 0, 0, 0.3)';
+            budgetCheck.classList.toggle('display-none');
+        };
+    })
+
+    //Toggles the budget settings from add transaction
+    budgetCheck.addEventListener('change', () => {
+        budgetSettings.classList.toggle('display-none');
+    })
+    //"Closes" the form
+    close.addEventListener('click', () => {
+        switchContainer();
+    })
+    //Animates the slider coursor
+    ammountToSave.addEventListener('input', () => {
+        let value = ammountToSave.value;
+        bubble.textContent = value;
+        //Interopolates in base 100
+        bubble.style.left = ((100 * value) / ammountToSave.max) + "%";
+        bubble.classList.add("show");
+    })
+
+    ammountToSave.addEventListener('blur', () => {
+        bubble.classList.remove("show");
+    })
+    //Changes the max value of the slider
+    valueInput.addEventListener('change', (event) => {
+        document.querySelector('.max').textContent = event.target.value;
+        ammountToSave.setAttribute('max', event.target.value);
+        ammountToSave.value = 0;
+    })
+    //Resets the slider
+    valueInput.addEventListener('focus', () => {
+        if (valueInput.value == 0) valueInput.value = '';
+    })
+    //Shows the recursive period menu
+    recursive.addEventListener('click', () => {
+        recursivePeriod.classList.toggle('display-none');
+    })
 }

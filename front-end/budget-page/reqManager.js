@@ -1,7 +1,7 @@
 const URL = "http://127.0.0.1:3000";
 
 const getOptions = async (creatorId) => {
-    fetch(URL + '/options/get', {
+    fetch(URL + '/categories/get', {
         method : 'GET',
         headers : {
             'creatorId' : creatorId,
@@ -12,7 +12,7 @@ const getOptions = async (creatorId) => {
 
 const remove = async (id) => {
     let returnValue;
-    await fetch(URL + '/options/delete', {
+    await fetch(URL + '/categories/delete', {
         method: 'DELETE',
         headers: {
           '_id': id
@@ -20,4 +20,14 @@ const remove = async (id) => {
     }).then(res => res.json())
         .then(data => returnValue = data)
     return returnValue;
+}
+
+const update = async (id, color) => {
+    await fetch(URL + '/categories/patch', {
+        method: 'PATCH',
+        headers: {
+          '_id': id,
+          'color' : color
+        }
+    }).then(res => console.log(res))
 }

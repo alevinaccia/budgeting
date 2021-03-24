@@ -1,6 +1,6 @@
 const URL = "http://127.0.0.1:3000";
 
-const add = async (type_, value_, recursivePeriod_, category_, ammountToSave_, text_) => {
+const add = async (type_, value_, recursivePeriod_, category_, ammountToSave_, text_, budget_, budgetValue_) => {
     let toReturn;
     await fetch(URL + '/transactions/add', {
         method: 'POST',
@@ -10,7 +10,9 @@ const add = async (type_, value_, recursivePeriod_, category_, ammountToSave_, t
             'recursivePeriod': recursivePeriod_,
             'ammountToSave': Number(ammountToSave_),
             'type': type_,
-            'text': text_
+            'text': text_,
+            'budget' : budget_,
+            'budgetValue' : budgetValue_
         }
     }).then(res => res.json())
         .then(data => {
@@ -52,7 +54,7 @@ const fillContainer = () => {
 }
 
 const loadCategories = () => { 
-    fetch(URL + '/options/get', {
+    fetch(URL + '/categories/get', {
         method: 'GET',
         headers : {
             'creatorId' : '1234'

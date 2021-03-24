@@ -66,9 +66,19 @@
                         </select>
                     </div>
                 </div>
-                <input list="category-list" type="text" placeholder="Category" class="category-list">
-                <datalist id="category-list">
-                </datalist>
+                <div class="category">
+                    <input list="category-list" type="text" placeholder="Category" class="category-list">
+                    <datalist id="category-list">
+                    </datalist>
+                    <span class="budget-check display-none">
+                        <input type="checkbox" class="budget-checker" name="" id="">
+                        <label for="check">Budget this category?</label>
+                    </span>
+                </div>
+                <div class="budget-settings display-none">
+                    <label for="number">How much per month?</label>
+                    <input type="number" name="number" class="budget-value">
+                </div>
                 <label for="ammountToSave" class="ammountLabel">Save something?</label>
                 <div class="range">
                     <div class="sliderValue">

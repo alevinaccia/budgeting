@@ -5,7 +5,7 @@ const app = express();
 const auth = require('./functions/authentication.js');
 const transactions = require('./functions/transactions.js');
 const transactionsRouter = require('./routes/transactionRoutes.js');
-const optionsRouter = require('./routes/optionsRuoter.js');
+const categoriesRouter = require('./routes/categoriesRouter.js');
 require('dotenv').config()
 
 app.use(cors());
@@ -26,7 +26,7 @@ app.post('/login', async (req, res) => {
 
 app.use('/transactions', transactionsRouter);
 
-app.use('/options', optionsRouter);
+app.use('/categories', categoriesRouter);
 
 app.listen(3000, () => {
     console.log("Listening...");

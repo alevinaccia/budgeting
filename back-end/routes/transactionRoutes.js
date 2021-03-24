@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const transactions = require('../functions/transactions.js');
-const options = require('../functions/options.js');
+const categories = require('../functions/categories.js');
 
 
 router.post('/add', async (req, res) => {
+    let cat;
     const transaction = transactions.create(
         req.headers.value,
         req.headers.category,
@@ -15,8 +16,9 @@ router.post('/add', async (req, res) => {
     );
     try {
         await transaction.save();
-        const option = await options.create(req.headers.category, '1234'); //TODO '1234' is the creatorId, for now is hardcoded! 
-        res.status(200).json({ transaction, option })
+        if (req.headers.category != '') 
+            cat = await categories.create(req.headers.category, '1234'); //TODO '1234' is the creatorId, for now is hardcoded! 
+        res.status(200).json({ transaction, cat })
     } catch (err) {
         res.status(400).send(err);
     }

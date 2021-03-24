@@ -7,8 +7,8 @@ const create = (value, category, ammountToSave, type, text, recursivePeriod) => 
     return transaction = new Transaction({
         'value': value,
         'date': new Date().getUTCDate(),
-        'category': category,
-        'ammountToSave': ammountToSave,
+        'category': category || null,
+        'ammountToSave': ammountToSave || 0,
         'type': type,
         'text': text,
         'recursivePeriod': recursivePeriod,
@@ -29,7 +29,7 @@ const remove = async (id) => {
 }
 
 const edit = async (id, newValue, newMessage) => {
-    let preEdit = await Transaction.findById(id);c
+    let preEdit = await Transaction.findById(id);
     await Transaction.updateOne({_id : id} , {
         value : newValue || preEdit.value,
         text : newMessage || preEdit.text

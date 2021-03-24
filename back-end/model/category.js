@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const optionSchema = new mongoose.Schema({
+const categorieSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true
@@ -15,7 +15,15 @@ const optionSchema = new mongoose.Schema({
     value: {
         type : Number,
         default : 1,
+    },
+    budget : {
+        type : Boolean,
+        default : false
+    },
+    budgetValue:{
+        type : Number,
+        default : 0
     }
 })
 
-module.exports = mongoose.model('option' , optionSchema);
+module.exports = mongoose.model('category' , categorieSchema);

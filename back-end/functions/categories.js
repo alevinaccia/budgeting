@@ -1,9 +1,8 @@
-const option = require('../model/option.js');
-const Option = require('../model/option.js');
+const Category = require('../model/category.js');
 
 const create = async (name, creatorId) => {
     if(!await exists(name, creatorId)){
-        return new Option({
+        return new Category({
             'name' : name,
             'creatorId' : creatorId,
             'color' : randomHex(),
@@ -12,7 +11,7 @@ const create = async (name, creatorId) => {
 }
 
 const exists = async (name, creatorId) => {
-    const temp = await Option.find({'name' : name, 'creatorId' : creatorId}); 
+    const temp = await Category.find({'name' : name, 'creatorId' : creatorId}); 
     if(Object.entries(temp).length === 0){
         return false;
     } 
@@ -20,12 +19,23 @@ const exists = async (name, creatorId) => {
 }   
 
 const get = async (creatorId) => {
-    return await Option.find({'creatorId' : creatorId});
+    return await Category.find({'creatorId' : creatorId});
 }
 
 const remove = async (id) => {
-    let removeOp = await Option.deleteOne({ '_id' : id });
+    let removeOp = await Category.deleteOne({ '_id' : id });
     return removeOp.deletedCount;
+}
+
+const patch = async (id, value) => {
+    try {
+        await Category.updateOne({'_id' : id}, {
+            'color' : value,
+        }) 
+    } catch (error) {
+        return error;
+    }
+    return 1;
 }
 
 //TODO move to a functions file
@@ -34,4 +44,4 @@ const randomHex = () => {
     return `#${Math.floor(Math.random()* 16777215).toString(16)}`;
 }
 
-module.exports = {create , get , exists, remove};
+module.exports = {create , get , exists, remove, patch};
