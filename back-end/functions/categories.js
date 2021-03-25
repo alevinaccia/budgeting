@@ -27,21 +27,10 @@ const remove = async (id) => {
     return removeOp.deletedCount;
 }
 
-const patch = async (id, value) => {
-    try {
-        await Category.updateOne({'_id' : id}, {
-            'color' : value,
-        }) 
-    } catch (error) {
-        return error;
-    }
-    return 1;
-}
-
 //TODO move to a functions file
 
 const randomHex = () => {
     return `#${Math.floor(Math.random()* 16777215).toString(16)}`;
 }
 
-module.exports = {create , get , exists, remove, patch};
+module.exports = {create , get , exists, remove};

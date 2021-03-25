@@ -7,8 +7,8 @@ const create = (value, category, ammountToSave, type, text, recursivePeriod) => 
     return transaction = new Transaction({
         'value': value,
         'date': new Date().getUTCDate(),
-        'category': category || null,
-        'ammountToSave': ammountToSave || 0,
+        'category': category,
+        'ammountToSave': ammountToSave,
         'type': type,
         'text': text,
         'recursivePeriod': recursivePeriod,
