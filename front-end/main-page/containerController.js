@@ -8,8 +8,14 @@ const transactionsContainer = document.querySelector(".transactions");
 const balance = document.querySelector(".balance");
 
 export default class ContainerController {
+  //This method handles the response from the api
+  handleResponse(response){
+    this.#addTransactionToView(response.transaction);
+    console.log(response) //TODO Continue
+  }
+
   //This method generates the html element
-  addTransactionToView(transaction) {
+  #addTransactionToView(transaction) {
     if (!emptyMessage.classList.contains("display-none"))
       emptyMessage.classList.toggle("display-none");
 
@@ -123,7 +129,7 @@ export default class ContainerController {
       emptyMessage.classList.toggle("display-none");
     } else {
       array.forEach((transaction) => {
-        this.addTransactionToView(transaction);
+        this.#addTransactionToView(transaction);
       });
     }
   };

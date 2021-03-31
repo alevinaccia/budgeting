@@ -24,8 +24,7 @@ addBTN.addEventListener("click", async () => {
   } else {
     let response = await form.sendReq();
     if (response) {
-      containerManager.addTransactionToView(response.transaction);
-      if (response.option) this.addCategory(response.option);
+      containerManager.handleResponse(response);
       containerManager.switchContainer();
     }
   }
