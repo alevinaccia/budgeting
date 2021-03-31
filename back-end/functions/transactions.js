@@ -1,17 +1,17 @@
 const Transaction = require('../model/transaction.js');
 
-const create = (value, category, ammountToSave, type, text, recursivePeriod) => {
+const create = (request) => {
 
-    let nextAddition = calculateNextAddition(recursivePeriod);
+    let nextAddition = calculateNextAddition(request.period);
 
     return transaction = new Transaction({
-        'value': value,
-        'date': new Date().getUTCDate(),
-        'category': category,
-        'ammountToSave': ammountToSave,
-        'type': type,
-        'text': text,
-        'recursivePeriod': recursivePeriod,
+        'value': request.value,
+        'date': new Date(),
+        'category': request.category,
+        'ammountToSave': request.ammountToSave,
+        'type': request.type,
+        'text': request.message,
+        'recursivePeriod': request.period,
         'nextAddition': nextAddition
     })
 }

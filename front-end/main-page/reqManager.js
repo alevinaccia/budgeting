@@ -1,17 +1,12 @@
 const URL = "http://127.0.0.1:3000";
 
 export default class RequestManager {
-    async add(type_, value_, recursivePeriod_, category_, ammountToSave_, text_){
+    async add(content){
         let toReturn;
         await fetch(URL + '/transactions/add', {
             method: 'POST',
             headers: {
-                'value': Number(value_),
-                'category': category_,
-                'recursivePeriod': recursivePeriod_,
-                'ammountToSave': Number(ammountToSave_),
-                'type': type_,
-                'text': text_
+                'transaction' : content,
             }
         }).then(res => res.json())
             .then(data => {

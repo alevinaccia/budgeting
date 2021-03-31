@@ -1,11 +1,17 @@
 const Category = require('../model/category.js');
 
-const create = async (name, creatorId) => {
+const handle = async (name, createrId, budgetValue) => {
+    //TODO handle the category of the transaction
+}
+
+const create = async (name, creatorId, budgetValue) => {
     if(!await exists(name, creatorId)){
         return new Category({
             'name' : name,
             'creatorId' : creatorId,
             'color' : randomHex(),
+            'budgetValue' : Number(budgetValue) > 0 ? Number(budgetValue) : null,
+            'budget' : Number(budgetValue) > 0 ? true : false
         }).save();
     }
 }

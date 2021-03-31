@@ -64,7 +64,8 @@ export default class ContainerController {
     confirm.addEventListener("click", async (event) => {
       let id = event.target.parentNode.parentNode.parentNode.id;
       await request.edit(id, numberEdit.value, textEdit.value)
-        .then(res => this.updateTransaction(res[0], res[1]));
+        .then(res => this.updateTransaction(res[0], res[1]))
+        .then(data => transaction = data);
     });
     cancel.addEventListener("click", (event) => {
       this.toggleEdit(event.target.parentNode.parentNode.parentNode.id);
@@ -143,19 +144,22 @@ export default class ContainerController {
     );
     div.childNodes[2].childNodes[2].value = "";
     this.updateBalanceByDifference(difference);
+    return transaction;
   };
 
-  toggleEdit (id){
+  toggleEdit(id) {
     let div = document.getElementById(`${id}`);
     div.children[0].classList.toggle("display-none");
     div.children[1].classList.toggle("display-none");
     div.children[2].classList.toggle("display-none");
   };
 
+  //Toggles between form and transaction view
   switchContainer() {
     container.style.background = "rgba(46 ,51 ,78, 0.3)";
     transactionsContainer.classList.toggle("display-none");
     formContainer.classList.toggle("display-none");
     container.classList.toggle("scroll-none");
   };
+
 }

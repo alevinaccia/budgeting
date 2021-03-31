@@ -5,19 +5,14 @@ const categories = require('../functions/categories.js');
 
 
 router.post('/add', async (req, res) => {
+    let toadd = JSON.parse(req.headers.transaction);
     let cat;
-    const transaction = transactions.create(
-        req.headers.value,
-        req.headers.category,
-        req.headers.ammounttosave,
-        req.headers.type,
-        req.headers.text,
-        req.headers.recursiveperiod
-    );
+    const transaction = transactions.create(toadd);
     try {
         await transaction.save();
-        if (req.headers.category != '') 
-            cat = await categories.create(req.headers.category, '1234'); //TODO '1234' is the creatorId, for now is hardcoded! 
+        if (toadd.category != null) 
+            cat = await categories.handle(toadd.category, '1234', toadd.budgetValue); //TODO '1234' is the creatorId, for now is hardcoded! 
+        console.log(cat);
         res.status(200).json({ transaction, cat })
     } catch (err) {
         res.status(400).send(err);

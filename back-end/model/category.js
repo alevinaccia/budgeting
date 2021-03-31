@@ -14,7 +14,7 @@ const categorieSchema = new mongoose.Schema({
     },
     value: {
         type : Number,
-        default : 1,
+        default : 0,
     },
     budget : {
         type : Boolean,
@@ -22,7 +22,7 @@ const categorieSchema = new mongoose.Schema({
     },
     budgetValue:{
         type : Number,
-        default : 0
+        default : null
     }
 })
 
