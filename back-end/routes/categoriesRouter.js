@@ -12,11 +12,11 @@ router.delete('/delete', async (req, res) => {
 })
 
 router.patch('/patch', async (req, res) => {
-    await categories.patch(req.headers._id, req.headers.color).then(count => {
+    await categories.changeColor(req.headers._id, req.headers.color).then(count => {
         if(count == 1)
             res.send({message : "All Good"}).status(200);
         else
-            res.send({message : "Err"}).status(200);
+            res.send({message : "Err"}).status(400);
     });
 })
 

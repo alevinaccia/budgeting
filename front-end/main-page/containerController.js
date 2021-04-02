@@ -70,7 +70,7 @@ export default class ContainerController {
     confirm.addEventListener("click", async (event) => {
       let id = event.target.parentNode.parentNode.parentNode.id;
       await request.edit(id, numberEdit.value, textEdit.value)
-        .then(res => this.updateTransaction(res[0], res[1]))
+        .then(res => this.updateTransaction(res[0], res[1])) //res[0] is the new transaction, res[1] is the difference in value :)
         .then(data => transaction = data);
     });
     cancel.addEventListener("click", (event) => {
@@ -117,9 +117,13 @@ export default class ContainerController {
   };
 
   //updates the balance(used when an existing one is modified)
-  updateBalanceByDifference(difference) {
+  updateBalanceByDifference(difference, type) {
     let currentBalance = Number(balance.textContent);
-    balance.textContent = currentBalance + difference;
+    if(type){
+      balance.textContent = currentBalance + difference;
+    }else{
+      balance.textContent = currentBalance - difference;
+    }  
   };
 
   //Creates the list, iterating the addTransactionToView method
@@ -149,7 +153,7 @@ export default class ContainerController {
       `${transaction.text}`
     );
     div.childNodes[2].childNodes[2].value = "";
-    this.updateBalanceByDifference(difference);
+    this.updateBalanceByDifference(difference, transaction.type);
     return transaction;
   };
 

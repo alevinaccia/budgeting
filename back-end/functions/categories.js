@@ -16,7 +16,7 @@ const create = async (name, creatorId, budgetValue) => {
         'budgetValue': Number(budgetValue) > 0 ? Number(budgetValue) : null,
         'budget': Number(budgetValue) > 0 ? true : false
     }).save();
-    console.log(await Category.findOne({ 'name': name, 'creatorId': creatorId }));
+    return await Category.findOne({ 'name': name, 'creatorId': creatorId });
 }
 
 const exists = async (name, creatorId) => {
@@ -30,7 +30,7 @@ const exists = async (name, creatorId) => {
 const update = async (name, creatorId, transactionValue) => {
     let category = await Category.findOne({ 'name': name, 'creatorId': creatorId });
     if (category.budget) {
-        let value = Number(category.value) + Number(transactionValue);
+        let value = Number(category.value) + Math.abs(Number(transactionValue));
         await Category.findOneAndUpdate({ 'name': name, 'creatorId': creatorId },
             { 'value': value }
         )
@@ -39,6 +39,12 @@ const update = async (name, creatorId, transactionValue) => {
         return null
     }
 
+}
+
+const changeColor = async (id, color) => {
+    return await Category.findByIdAndUpdate(id, {
+        'color' : color,
+    })
 }
 
 
@@ -57,4 +63,4 @@ const randomHex = () => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-module.exports = { create, get, exists, remove, handle };
+module.exports = { create, get, exists, remove, handle, changeColor };

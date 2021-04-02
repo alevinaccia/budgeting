@@ -29,5 +29,5 @@ const update = async (id, color) => {
           '_id': id,
           'color' : color
         }
-    }).then(res => console.log(res))
+    })
 }
