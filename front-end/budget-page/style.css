@@ -1,10 +1,28 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .container{
     display : flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
-    margin-top: 5%;
-    width: 100%;
+    margin-top: 40px;
+    box-shadow:0 0 25px #111;
+    text-align: center;
+    background: rgba(46 ,51 ,78, 0.3);
+    width: 750px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    overflow-y: scroll;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    transition: 0.2s;
 }
 
 .budget{
@@ -79,6 +97,24 @@ input[type=color]{
     background-color: rgba(10, 129, 209, 0.4);
     transition-duration: 0.3s;
 }
+
+.operators{
+    margin-top: 50px;
+    width: 550px;
+    font-size: 25px; /*TODO change font*/
+
+}
+
+.operators > ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+.operators > input[type=button]{
+    padding : 20px;
+}
+
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
