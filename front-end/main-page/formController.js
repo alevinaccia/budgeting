@@ -1,4 +1,4 @@
-import Request from './reqManager.js';
+import Request from '../modules/reqManager.js';
 import Transaction from '../../transaction.js';
 import ContainerManager from './containerController.js';
 
@@ -61,7 +61,7 @@ export default class FormController {
             period = recursivePeriod.value;
         }
 
-        let response = await request.add(
+        let response = await request.addTransaction(
             JSON.stringify(
                 new Transaction(
                     valueInput.value,

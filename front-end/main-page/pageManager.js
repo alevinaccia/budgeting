@@ -1,6 +1,6 @@
 import Form from './formController.js';
 import Container from './containerController.js';
-import Request from './reqManager.js';
+import Request from '../modules/reqManager.js';
 
 const request = new Request;
 const form = new Form;
@@ -12,8 +12,12 @@ const formContainer = document.querySelector('.form');
 
 
 window.onload = async () => {
-  containerManager.createList(await request.fillContainer());
-  form.createCategories(await request.loadCategories());
+  try {
+    containerManager.createList(await request.getAllTransactions());
+  }catch(err){
+    containerManager.toggleConnectionError();
+  }
+  form.createCategories(await request.getAllCategories());
   form.addListeners();
 };
 

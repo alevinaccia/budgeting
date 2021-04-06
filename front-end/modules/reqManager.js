@@ -1,12 +1,12 @@
 const URL = "http://127.0.0.1:3000";
 
 export default class RequestManager {
-    async add(content){
+    async addTransaction(content) {
         let toReturn;
         await fetch(URL + '/transactions/add', {
             method: 'POST',
             headers: {
-                'transaction' : content,
+                'transaction': content,
             }
         }).then(res => res.json())
             .then(data => {
@@ -15,8 +15,8 @@ export default class RequestManager {
             })
         return toReturn;
     }
-    
-    async remove(id){
+
+    async removeTransaction(id) {
         let returnValue;
         await fetch(URL + '/transactions/delete', {
             method: 'DELETE',
@@ -28,8 +28,8 @@ export default class RequestManager {
         return returnValue;
     }
 
-    
-    async edit(id, newValue, newMessage){
+
+    async editTransaction(id, newValue, newMessage) {
         let toRet;
         await fetch(URL + '/transactions/patch', {
             method: 'PATCH',
@@ -42,8 +42,8 @@ export default class RequestManager {
             .then(data => toRet = [data[0], data[1]]); //Data[0] is the new transaction, data[1] is the difference in value :)
         return toRet;
     }
-    
-    async fillContainer(){
+
+    async getAllTransactions() {
         let toRet;
         await fetch(URL + '/transactions/get', {
             method: 'GET',
@@ -51,16 +51,38 @@ export default class RequestManager {
             .then(data => toRet = data);
         return toRet;
     }
-    
-    async loadCategories(){ 
+
+    async getAllCategories() {
         let toRet;
         await fetch(URL + '/categories/get', {
             method: 'GET',
-            headers : {
-                'creatorId' : '1234'
+            headers: {
+                'creatorId': '1234'
             }
         }).then(res => res.json())
             .then(data => toRet = data);
         return toRet;
+    }
+
+    async removeCategory(id) {
+        let returnValue;
+        await fetch(URL + '/categories/delete', {
+            method: 'DELETE',
+            headers: {
+                '_id': id
+            }
+        }).then(res => res.json())
+            .then(data => returnValue = data)
+        return returnValue;
+    }
+
+    async editCategory(id, color) {
+        await fetch(URL + '/categories/patch', {
+            method: 'PATCH',
+            headers: {
+                '_id': id,
+                'color': color
+            }
+        })
     }
 }

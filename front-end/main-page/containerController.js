@@ -1,9 +1,10 @@
-import Request from './reqManager.js';
+import Request from '../modules/reqManager.js';
 const request = new Request;
 
 const container = document.querySelector(".container");
 const formContainer = document.querySelector(".form");
 const emptyMessage = document.querySelector(".emptyMessage");
+const connectionError = document.querySelector(".connectionError");
 const transactionsContainer = document.querySelector(".transactions");
 const balance = document.querySelector(".balance");
 
@@ -60,7 +61,7 @@ export default class ContainerController {
     //Add Listners
     trashIcon.addEventListener("click", async (event) => {
       const id = event.target.parentNode.parentNode.id;
-      await request.remove(id);
+      await request.removeTransaction(id);
       document.getElementById(`${id}`).remove();
       this.updateBalance(transaction, "remove");
     });
@@ -69,7 +70,7 @@ export default class ContainerController {
     });
     confirm.addEventListener("click", async (event) => {
       let id = event.target.parentNode.parentNode.parentNode.id;
-      await request.edit(id, numberEdit.value, textEdit.value)
+      await request.editTransaction(id, numberEdit.value, textEdit.value)
         .then(res => this.updateTransaction(res[0], res[1])) //res[0] is the new transaction, res[1] is the difference in value :)
         .then(data => transaction = data);
     });
@@ -156,6 +157,10 @@ export default class ContainerController {
     this.updateBalanceByDifference(difference, transaction.type);
     return transaction;
   };
+
+  toggleConnectionError(){
+    connectionError.classList.toggle("display-none");
+  }
 
   toggleEdit(id) {
     let div = document.getElementById(`${id}`);
