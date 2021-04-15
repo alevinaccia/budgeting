@@ -5,6 +5,9 @@
 
 body {
     background: #574AE2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .pageTitle {
@@ -19,14 +22,12 @@ body {
 }
 
 .balanceWrapper {
-    position: absolute;
-    width: 90%;
-    height: 119px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     top: 15vh;
+    height: 119px;
     background: #F1ADF2;
     border-radius: 25px;
+    width: 90vw;
 }
 
 .title {
@@ -52,19 +53,54 @@ body {
 }
 
 .container {
-    position: absolute;
-    width: 90%;
-    height: 381px;
-    left: 18px;
-    top: 260px;
+    position: relative;
+    width: 90vw;
+    height: 47vh;
+    top: 17vh; 
     background: #E2DE84;
-    border-radius: 38px;
+    border-radius: 25px;
+}
+
+.transactionSelect{
+    margin: 20px 0 20px 20px;
+    font-size: 25px;
+    border: none;
+    background: none;
+    color: grey;
+    font-family: Inter;
+    font-weight: bold;
+    outline: none;
+}
+
+.transaction{
+    width: 90%;
+    height: 60px;
+    border-radius: 15px;
+    font-family: Inter;
+    display: flex;
+    background-color: hotpink;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.addBTN {
+    position: absolute;
+    width: 319px;
+    height: 54px;
+    left: 28px;
+    top: 665px;
+    background: #377DFF;
+    border-radius: 8px;
+    font-family: Inter;
+    border: none;
+    font-size: 23px;
+    color: white;
 }
 
 .bottomMenu {
     position: fixed;
     width: 100%;
-    height: 10vh;
+    height: 12vh;
     bottom: 0px;
     left: 0px;
     background: #EE6352;

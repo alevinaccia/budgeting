@@ -21,7 +21,12 @@
             </h1>
         </div>
         <div class="container">
-            <section class="transactions">
+            <select class="transactionSelect">
+                <option value="test">Latest Transactions</option>
+                <option value="test">All</option>
+                <option value="test">Highest</option>
+            </select>
+            <section class="transactions">   
                 <div class="messages">
                     <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions
                         by clicking
@@ -85,7 +90,9 @@
 
             </section>
         </div>
+<!--         
         <button class="addBTN">Add Transaction</button>
+        -->
     </section>
     <script src="pageManager.js" type="module"></script>
     <script src="../prototypeFunctions.js"></script>
