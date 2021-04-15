@@ -1,8 +1,10 @@
 import Request from "../modules/reqManager.js";
 import budgetContainerController from "./budgetContainerController.js";
+import Form from "./formController.js"
 
 const containerController = new budgetContainerController();
 const request = new Request;
+const form = new Form;
 const addBTN = document.querySelector('.addBTN');
 
 window.onload = async () => {

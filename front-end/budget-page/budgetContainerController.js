@@ -11,6 +11,10 @@ export default class budgetContainerController {
         this.addListners();
     }
 
+    switchContainer(){
+        
+    }
+
     createList(list = this.currentCategoriesShown, param = cat => cat) {
         this.currentCategoriesShown = list.filter(param);
         this.currentCategoriesShown.forEach((category) => {

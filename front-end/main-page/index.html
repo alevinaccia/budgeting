@@ -7,39 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../../assets/fav.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../generalStyle.css">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3da58c21ae.js" crossorigin="anonymous"></script>
     <title>Budget yourself!</title>
 </head>
 
 <body>
-    <div class="backgrond-nav">
-        <nav class="main-nav">
-            <img src="../../assets/fav.png">
-            <ul class="nav-list">
-                <li class="selected" id="main">Main</li>
-                <li class="not-selected" id="savings">Savings</li>
-                <li class="not-selected" id="budget">Budget</li>
-                <li class="not-selected" id="settings">Settings</li>
-            </ul>
-        </nav>
-    </div>
-    <hr>
     <section class="main">
+        <span class="pageTitle">Home</span>
         <div class="balanceWrapper">
+            <span class="title">My Balance</span>
             <h1 class="balance">0
-                <h2 class="currency">€</h2>
             </h1>
         </div>
         <div class="container">
             <section class="transactions">
                 <div class="messages">
-                    <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions by clicking
+                    <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions
+                        by clicking
                         the button below</div>
-                    <div class="connectionError errorMessage display-none">Error while connecting to the database...</div>
+                    <div class="connectionError errorMessage display-none">Error while connecting to the database...
+                    </div>
                 </div>
             </section>
             <section class="form display-none">
@@ -93,12 +81,14 @@
                     </div>
                 </div>
             </section>
+            <section class="bottomMenu">
+
+            </section>
         </div>
         <button class="addBTN">Add Transaction</button>
     </section>
     <script src="pageManager.js" type="module"></script>
     <script src="../prototypeFunctions.js"></script>
-    <script src="../pageChanger.js"></script>
 </body>
 
 </html>
