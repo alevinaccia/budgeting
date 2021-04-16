@@ -21,6 +21,10 @@ window.onload = async () => {
   form.addListeners();
 };
 
+window.onscroll = () => {
+  scrollTo(0,0);
+}
+
 addBTN.addEventListener("click", async () => {
   if (formContainer.classList.contains("display-none")) {
     containerManager.switchContainer();

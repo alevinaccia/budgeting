@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, miximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="../../assets/fav.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
@@ -26,7 +26,12 @@
                 <option value="test">All</option>
                 <option value="test">Highest</option>
             </select>
-            <section class="transactions">   
+            <section class="transactions display-none">
+                <!--<div class="transaction">
+                    <div class="categoryColor"></div>
+                    <h2 class="transactionName">Pranzo</h2>
+                    <h2 class="transactionValue">50<span>€</span></h2>
+                </div> -->
                 <div class="messages">
                     <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions
                         by clicking
@@ -35,9 +40,9 @@
                     </div>
                 </div>
             </section>
-            <section class="form display-none">
+            <section class="form">
                 <i class="fas fa-times close fa-2x"></i>
-                <div>
+                <div class="toggleSwitch">
                     <input type="checkbox" id="slider" class="slider" checked="true">
                     <label for="slider" class="label">
                         <i class="fas fa-plus"></i>
@@ -45,7 +50,7 @@
                         <div class="ball"></div>
                     </label>
                 </div>
-                <div>
+                <div class="firstLine">
                     <input type="number" class="valueInput" min=0 value="0">
                     <input type="text" placeholder="Placeholder" class="text">
                 </div>
@@ -87,12 +92,14 @@
                 </div>
             </section>
             <section class="bottomMenu">
-
+                <i class="fas fa-home fa-2x"></i>
+                <i class="fas fa-chart-line fa-2x"></i>
+                <i class="fas fa-calculator fa-2x"></i>
+                <i class="fas fa-piggy-bank fa-2x"></i>
+                <i class="fas fa-cog fa-2x"></i>
             </section>
         </div>
-<!--         
         <button class="addBTN">Add Transaction</button>
-        -->
     </section>
     <script src="pageManager.js" type="module"></script>
     <script src="../prototypeFunctions.js"></script>
