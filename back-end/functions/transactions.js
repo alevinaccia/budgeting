@@ -8,7 +8,6 @@ const create = (request) => {
         'value': request.value,
         'date': new Date(),
         'category': request.category,
-        'ammountToSave': request.ammountToSave,
         'type': request.type,
         'text': request.message,
         'recursivePeriod': request.period,

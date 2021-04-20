@@ -10,55 +10,49 @@ const valueInput = document.querySelector(".valueInput");
 const recursive = document.querySelector(".recursiveBox");
 const category = document.querySelector(".category-list");
 const categoryList = document.getElementById("category-list");
-const message = document.querySelector(".text");
-const switchElement = document.querySelector(".slider");
+const message = document.querySelector(".textInput");
 const budgetSetting = document.querySelector('.budget-settings');
-const ammountToSave = document.querySelector(".ammountToSave");
-const bubble = document.querySelector(".bubble");
 const close = document.querySelector(".close");
 const recursivePeriod = document.querySelector(".period");
 const budgetValue = document.querySelector(".budget-value");
 
+//Type btns;
+const incomeBTN = document.querySelector('.incomeBTN')
+const expenseBTN = document.querySelector('.expenseBTN')
+
 export default class FormController {
+    constructor(){
+        this.type;
+    }
 
     addListeners() {
         //Change the bg color of the main container based on the switch position
-        switchElement.addEventListener("change", () => {
-            this.switchType();
-        });
-
         close.addEventListener("click", () => {
             containerManager.switchContainer();
-        });
-
-        ammountToSave.addEventListener("input", () => {
-            this.#sliderAnimation;
-        });
-
-        ammountToSave.addEventListener("blur", () => {
-            bubble.classList.remove("show");
-        });
-
-        valueInput.addEventListener("change", (event) => {
-            document.querySelector(".max").textContent = event.target.value;
-            ammountToSave.setAttribute("max", event.target.value);
-            ammountToSave.value = 0;
         });
 
         valueInput.addEventListener("focus", () => {
             if (valueInput.value == 0) valueInput.value = "";
         });
 
-        recursive.addEventListener("click", () => {
-            recursivePeriod.classList.toggle("display-none");
-        });
+        incomeBTN.addEventListener('click', () => {
+            incomeBTN.style.background = 'green';
+            expenseBTN.style.background = 'white';
+            this.type = true;
+        })
+        
+        expenseBTN.addEventListener('click', () => {
+            expenseBTN.style.background = 'red';
+            incomeBTN.style.background = 'white';
+            this.type = false;
+        })
     };
 
     async sendReq() {
         //The "add" method return the new transaction added to the database, so we can update the UI
         let period = null;
-        if (recursive.checked) {
-            period = recursivePeriod.value;
+        if (recursivePeriod.value != "none") {
+            period = recursivePeriod.value
         }
 
         let response = await request.addTransaction(
@@ -68,13 +62,13 @@ export default class FormController {
                     category.value,
                     message.value,
                     period,
-                    ammountToSave.value,
-                    switchElement.checked,
+                    this.type,
                     budgetValue.value
                 ),
             )
         );
         if (!this.handleError(response)) {
+            this.type = null;
             return response;
         } else {
             return undefined;
@@ -102,20 +96,15 @@ export default class FormController {
 
     //form reset
     clearForm() {
-        //Switch
-        switchElement.checked = true;
-        container.style.background = "rgba(0 ,255 ,0, 0.4)";
+        //BTNs
+        incomeBTN.style.background = 'white';
+        expenseBTN.style.background = 'white';
         //Value
         valueInput.value = 0;
         valueInput.style.border = "";
         //Message
         message.value = "";
         message.style.border = "";
-        //Checkbok
-        recursive.checked = false;
-        //AmmountToSave
-        document.querySelector(".max").textContent = "100";
-        ammountToSave.value = 0;
         //Category
         category.value = "";
         budgetValue.value = 0;
@@ -161,13 +150,5 @@ export default class FormController {
             budgetSetting.classList.add('display-none');
             return;
         }
-    }
-
-    #sliderAnimation() {
-        let value = ammountToSave.value;
-        bubble.textContent = value;
-        //Interopolates in base 100
-        bubble.style.left = (100 * value) / ammountToSave.max + "%";
-        bubble.classList.add("show");
     }
 }

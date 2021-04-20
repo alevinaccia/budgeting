@@ -20,79 +20,30 @@ export default class ContainerController {
     if (!emptyMessage.classList.contains("display-none"))
       emptyMessage.classList.toggle("display-none");
 
-    //Create
-    let div = document.createElement("div");
-    div.setAttribute("class", "transaction");
-    div.setAttribute("id", transaction._id);
-    //span with actual value
-    let span = document.createElement("span");
-    span.textContent = `${transaction.value}€  ${transaction.text}`;
+    let div = document.createElement('div');
+    div.classList.add('transaction');
+    let category = document.createElement('div');
+    category.classList.add('categoryColor');
+    category.style.background = transaction.color;
+    let name = document.createElement('h2');
+    name.classList.add('transactionName');
+    name.innerText = transaction.text;
+    let value = document.createElement('h2');
+    value.classList.add('transactionValue');
+    let prefix = transaction.value ? '+' : '-' ;
+    value.innerText = `${prefix}${transaction.value}€`;
+    transactionsContainer.prepend(div);
 
-    //Icons
-    let innerDiv = document.createElement("div");
-    innerDiv.setAttribute("class", "icons");
-    let trashIcon = document.createElement("i");
-    trashIcon.setAttribute("class", "fas fa-trash-alt");
-    let penIcon = document.createElement("i");
-    penIcon.setAttribute("class", "fas fa-pen");
+    if(transaction.value){
+      value.style.color = 'green' //TODO get cooler colors
+    }else{
+      value.style.color = 'red'
+    }
 
-    //Edit-mode
-    let editDiv = document.createElement("div");
-    editDiv.setAttribute("class", "edit display-none");
-    let icons = document.createElement("div");
-    icons.setAttribute("class", "iconsEdit");
-    let confirm = document.createElement("i");
-    confirm.setAttribute("class", "fas fa-check confirm");
-    let cancel = document.createElement("i");
-    cancel.setAttribute("class", "fas fa-times");
-    let numberEdit = document.createElement("input");
-    numberEdit.setAttribute("class", "numberEdit");
-    numberEdit.setAttribute("placeHolder", transaction.value);
-    numberEdit.setAttribute("type", "number");
-    let euroIcon = document.createElement("i");
-    euroIcon.setAttribute("class", "fas fa-euro-sign");
-    let textEdit = document.createElement("input");
-    textEdit.setAttribute("type", "text");
-    textEdit.setAttribute("class", "textEdit");
-    textEdit.setAttribute("placeHolder", transaction.text);
-    icons.appendChild(cancel);
-    icons.appendChild(confirm);
+    div.appendChild(category);
+    div.appendChild(name);
+    div.appendChild(value);
 
-    //Add Listners
-    trashIcon.addEventListener("click", async (event) => {
-      const id = event.target.parentNode.parentNode.id;
-      await request.removeTransaction(id);
-      document.getElementById(`${id}`).remove();
-      this.updateBalance(transaction, "remove");
-    });
-    penIcon.addEventListener("click", (event) => {
-      this.toggleEdit(event.target.parentNode.parentNode.id);
-    });
-    confirm.addEventListener("click", async (event) => {
-      let id = event.target.parentNode.parentNode.parentNode.id;
-      await request.editTransaction(id, numberEdit.value, textEdit.value)
-        .then(res => this.updateTransaction(res[0], res[1])) //res[0] is the new transaction, res[1] is the difference in value :)
-        .then(data => transaction = data);
-    });
-    cancel.addEventListener("click", (event) => {
-      this.toggleEdit(event.target.parentNode.parentNode.parentNode.id);
-    });
-
-    //Style
-    transaction.type
-      ? div.classList.add("income")
-      : div.classList.add("outcome");
-
-    //Append everything
-    innerDiv.appendChild(trashIcon);
-    innerDiv.appendChild(penIcon);
-    editDiv.appendChild(numberEdit);
-    editDiv.appendChild(euroIcon);
-    editDiv.appendChild(textEdit);
-    editDiv.appendChild(icons);
-    div.appendChild(span);
-    div.appendChild(innerDiv);
-    div.appendChild(editDiv);
     transactionsContainer.prepend(div);
 
     //Update balance
@@ -103,7 +54,7 @@ export default class ContainerController {
   updateBalance(transaction, operation) {
     let currentBalance = Number(balance.textContent);
     let newBalance;
-
+    
     if (operation == "add") {
       transaction.type
         ? (newBalance = currentBalance + transaction.value)
@@ -171,7 +122,6 @@ export default class ContainerController {
 
   //Toggles between form and transaction view
   switchContainer() {
-    container.style.background = "rgba(46 ,51 ,78, 0.3)";
     transactionsContainer.classList.toggle("display-none");
     formContainer.classList.toggle("display-none");
     container.classList.toggle("scroll-none");

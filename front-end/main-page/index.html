@@ -42,64 +42,53 @@
             </section>
             <section class="form">
                 <i class="fas fa-times close fa-2x"></i>
-                <div class="toggleSwitch">
-                    <input type="checkbox" id="slider" class="slider" checked="true">
-                    <label for="slider" class="label">
-                        <i class="fas fa-plus"></i>
-                        <i class="fas fa-minus"></i>
-                        <div class="ball"></div>
-                    </label>
-                </div>
-                <div class="firstLine">
-                    <input type="number" class="valueInput" min=0 value="0">
-                    <input type="text" placeholder="Placeholder" class="text">
-                </div>
-                <div class="recursiveWrapper">
-                    <input type="checkbox" class="recursiveBox" name="recursive">
-                    <label for="recursive" class="recursiveText">Recursive</label>
-                    <div>
-                        <select name="period" class="period display-none">
-                            <option value="daily">Daily</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="weekly">Weekly</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="category">
-                    <input list="category-list" type="text" placeholder="Category" class="category-list">
-                    <datalist id="category-list">
-                    </datalist>
-                    <span class="budget-check display-none">
-                        <input type="checkbox" class="budget-checker" name="" id="">
-                        <label for="check">Budget this category?</label>
+                <input type="number" class="valueInput" min=0 value="0">
+                <div class="left">
+                    <span>
+                        <i class="fas fa-pen-square fa-2x"></i>
+                        <input type="text" placeholder="Placeholder" class="textInput">
                     </span>
-                </div>
-                <div class="budget-settings display-none">
-                    <label for="number">How much per month?</label>
-                    <input type="number" name="number" class="budget-value" value="0">
-                </div>
-                <label for="ammountToSave" class="ammountLabel">Save something?</label>
-                <div class="range">
-                    <div class="sliderValue">
-                        <span class="bubble">100</span>
+                    <span>
+                        <i class="fas fa-recycle fa-2x"></i>
+                        <div>
+                            <select name="period" class="period">
+                                <option value="none">Make recurring</option>
+                                <option value="daily">Daily</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
+                            </select>
+                    </span>
+                    <span class="category">
+                        <i class="fas fa-tags fa-2x"></i>
+                        <input list="category-list" type="text" placeholder="Category" class="category-list">
+                        <datalist id="category-list">
+                        </datalist>
+                        <span class="budget-check display-none">
+                            <input type="checkbox" class="budget-checker" name="" id="">
+                            <label for="check">Budget this category?</label>
+                        </span>
+                    </span>
+                    <div class="budget-settings display-none">
+                        <label for="number">How much per month?</label>
+                        <input type="number" name="number" class="budget-value" value="0">
                     </div>
-                    <div class="field">
-                        <div class="value min">0</div>
-                        <input type="range" name="ammountToSave" class="ammountToSave" value="0" min="0" max="100"
-                            step="1">
-                        <div class="value max">100</div>
-                    </div>
+                    <span class="buttons">
+                        <input type="button" value="Income" class="incomeBTN">
+                        <input type="button" value="Expense" class="expenseBTN">
+                    </span>
+
                 </div>
-            </section>
-            <section class="bottomMenu">
-                <i class="fas fa-home fa-2x"></i>
-                <i class="fas fa-chart-line fa-2x"></i>
-                <i class="fas fa-calculator fa-2x"></i>
-                <i class="fas fa-piggy-bank fa-2x"></i>
-                <i class="fas fa-cog fa-2x"></i>
-            </section>
         </div>
-        <button class="addBTN">Add Transaction</button>
+    </section>
+    <section class="bottomMenu">
+        <i class="fas fa-home fa-2x"></i>
+        <i class="fas fa-chart-line fa-2x"></i>
+        <i class="fas fa-calculator fa-2x"></i>
+        <i class="fas fa-piggy-bank fa-2x"></i>
+        <i class="fas fa-cog fa-2x"></i>
+    </section>
+    </div>
+    <button class="addBTN">Add Transaction</button>
     </section>
     <script src="pageManager.js" type="module"></script>
     <script src="../prototypeFunctions.js"></script>
