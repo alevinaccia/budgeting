@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, miximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="../../assets/fav.png">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
@@ -22,25 +22,25 @@
         </div>
         <div class="container">
             <select class="transactionSelect">
-                <option value="test">Latest Transactions</option>
-                <option value="test">All</option>
-                <option value="test">Highest</option>
+                <option value="latest">Latest Transactions</option>
+                <option value="valueIncreasing">Lowest</option>
+                <option value="valueDecresing">Highest</option>
             </select>
-            <section class="transactions display-none">
+            <div class="messages">
+                <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions
+                    by clicking
+                    the button below</div>
+                <div class="connectionError errorMessage display-none">Error while connecting to the database...
+                </div>
+            </div>
+            <section class="transactions">
                 <!--<div class="transaction">
                     <div class="categoryColor"></div>
                     <h2 class="transactionName">Pranzo</h2>
                     <h2 class="transactionValue">50<span>€</span></h2>
                 </div> -->
-                <div class="messages">
-                    <div class="emptyMessage errorMessage display-none">Looks empty there... start adding transactions
-                        by clicking
-                        the button below</div>
-                    <div class="connectionError errorMessage display-none">Error while connecting to the database...
-                    </div>
-                </div>
             </section>
-            <section class="form">
+            <section class="form display-none">
                 <i class="fas fa-times close fa-2x"></i>
                 <input type="number" class="valueInput" min=0 value="0">
                 <div class="left">

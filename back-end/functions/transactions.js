@@ -3,9 +3,9 @@ const Transaction = require('../model/transaction.js');
 const create = (request) => {
 
     let nextAddition = calculateNextAddition(request.period);
-
+    
     return transaction = new Transaction({
-        'value': request.value,
+        'value': request.type ? request.value : request.value * -1,
         'date': new Date(),
         'category': request.category,
         'type': request.type,

@@ -8,13 +8,12 @@ const containerManager = new Container;
 
 const addBTN = document.querySelector('.addBTN');
 const formContainer = document.querySelector('.form');
-
-
+const sortSelector = document.querySelector('.transactionSelect');
 
 window.onload = async () => {
   try {
     containerManager.createList(await request.getAllTransactions());
-  }catch(err){
+  } catch (err) {
     containerManager.toggleConnectionError();
   }
   form.createCategories(await request.getAllCategories());
@@ -22,7 +21,7 @@ window.onload = async () => {
 };
 
 window.onscroll = () => {
-  scrollTo(0,0);
+  scrollTo(0, 0);
 }
 
 addBTN.addEventListener("click", async () => {
@@ -37,4 +36,30 @@ addBTN.addEventListener("click", async () => {
     }
   }
 });
+
+sortSelector.addEventListener('change', async () => {
+  switch (sortSelector.value) {
+    case 'latest':
+      containerManager.createList(await request.getAllTransactions(), true, () => {}, true);
+      break;
+    case 'valueIncreasing':
+      containerManager.createList(await request.getAllTransactions(), true, (a, b) => {
+        if (a.value > b.value)
+            return 1;
+        else if (a.value < b.value)
+            return -1;
+        return 0;
+    }, true);
+      break;
+    case 'valueDecreasing':
+      containerManager.createList(await request.getAllTransactions(), true, (a, b) => {
+        if (a.value < b.value)
+          return 1;
+        else if (a.value > b.value)
+          return -1;
+        return 0;
+      }, true);
+      break;
+  }
+})
 

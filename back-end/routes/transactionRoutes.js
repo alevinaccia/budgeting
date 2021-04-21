@@ -11,6 +11,7 @@ router.post('/add', async (req, res) => {
     try {
         if (toadd.category != null)
             category = await categories.handle(toadd.category, '1234', toadd.budgetValue, toadd.value); //TODO '1234' is the creatorId, for now is hardcoded! 
+        transaction.color = category.information.color;
         await transaction.save();
         res.status(200).json({ transaction, category })
     } catch (err) {

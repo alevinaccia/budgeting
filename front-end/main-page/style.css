@@ -80,6 +80,10 @@ body {
     outline: none;
 }
 
+.transactionSelect > option{
+    background: black;
+}
+
 .transaction{
     width: 90%;
     height: 60px;

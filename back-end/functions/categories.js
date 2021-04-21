@@ -4,7 +4,7 @@ const handle = async (name, creatorId, budgetValue, transactionValue) => {
     if (!await exists(name, creatorId)) {
         return {information : await create(name, creatorId, budgetValue), new : true };
     } else {
-        return {information : await update(name, creatorId, transactionValue), new : false};
+        return {information : await Category.findOne({ 'name': name, 'creatorId': creatorId }), new : false};
     }
 }
 

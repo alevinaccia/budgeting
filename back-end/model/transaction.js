@@ -4,7 +4,6 @@ const transactionSchema = new mongoose.Schema({
     value: {
         type: Number,
         required: true,
-        min: 0.1
     },
     date: {
         type: String,

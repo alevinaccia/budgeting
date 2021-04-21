@@ -4,24 +4,24 @@ const request = new Request;
 const container = document.querySelector(".container");
 const formContainer = document.querySelector(".form");
 const emptyMessage = document.querySelector(".emptyMessage");
+const messagesContainer = document.querySelector('.messages');
 const connectionError = document.querySelector(".connectionError");
 const transactionsContainer = document.querySelector(".transactions");
 const balance = document.querySelector(".balance");
 
 export default class ContainerController {
   //This method handles the response from the api
-  handleResponse(response){
+  handleResponse(response) {
     this.#addTransactionToView(response.transaction);
-    console.log(response) //TODO Continue
   }
 
   //This method generates the html element
-  #addTransactionToView(transaction) {
-    if (!emptyMessage.classList.contains("display-none"))
-      emptyMessage.classList.toggle("display-none");
+  #addTransactionToView(transaction, bypass = false) {
+    emptyMessage.classList.add('display-none');
 
     let div = document.createElement('div');
     div.classList.add('transaction');
+    div.setAttribute('id', transaction._id)
     let category = document.createElement('div');
     category.classList.add('categoryColor');
     category.style.background = transaction.color;
@@ -30,13 +30,12 @@ export default class ContainerController {
     name.innerText = transaction.text;
     let value = document.createElement('h2');
     value.classList.add('transactionValue');
-    let prefix = transaction.value ? '+' : '-' ;
-    value.innerText = `${prefix}${transaction.value}€`;
+    value.innerText = `${transaction.value}€`;
     transactionsContainer.prepend(div);
 
-    if(transaction.value){
+    if (transaction.type) {
       value.style.color = 'green' //TODO get cooler colors
-    }else{
+    } else {
       value.style.color = 'red'
     }
 
@@ -44,25 +43,37 @@ export default class ContainerController {
     div.appendChild(name);
     div.appendChild(value);
 
+    let lastTap;
+
+    div.addEventListener('touchend', async (event) => {
+      let now = new Date().getTime();
+      let timeFromLastTap = now - lastTap;
+      if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {
+        const id = event.target.id;
+        await request.removeTransaction(id);
+        document.getElementById(`${id}`).remove();
+        if (transactionsContainer.innerHTML != '') emptyMessage.classList.add('display-none'); //TODO fix 
+        this.updateBalance(transaction, "remove");
+        event.preventDefault();
+      }
+      lastTap = new Date().getTime();
+    })
+
     transactionsContainer.prepend(div);
 
     //Update balance
-    this.updateBalance(transaction, "add");
+    if (!bypass) this.updateBalance(transaction, "add");
   };
 
   //updates the balance(used when a new is added)
   updateBalance(transaction, operation) {
     let currentBalance = Number(balance.textContent);
     let newBalance;
-    
+
     if (operation == "add") {
-      transaction.type
-        ? (newBalance = currentBalance + transaction.value)
-        : (newBalance = currentBalance - transaction.value);
+      newBalance = currentBalance + transaction.value
     } else if (operation == "remove") {
-      transaction.type
-        ? (newBalance = currentBalance - transaction.value)
-        : (newBalance = currentBalance + transaction.value);
+      newBalance = currentBalance - transaction.value
     }
 
     balance.textContent = newBalance;
@@ -71,21 +82,24 @@ export default class ContainerController {
   //updates the balance(used when an existing one is modified)
   updateBalanceByDifference(difference, type) {
     let currentBalance = Number(balance.textContent);
-    if(type){
+    if (type) {
       balance.textContent = currentBalance + difference;
-    }else{
+    } else {
       balance.textContent = currentBalance - difference;
-    }  
+    }
   };
 
   //Creates the list, iterating the addTransactionToView method
-  createList(list) {
+  createList(list, clear = false, sortFunction = () => { }, bypass = false) {
+    if (clear) transactionsContainer.innerHTML = '';
     let array = Array.from(list);
+    array.sort(sortFunction);
+
     if (array.length == 0) {
-      emptyMessage.classList.toggle("display-none");
+      emptyMessage.classList.remove('display-none');
     } else {
       array.forEach((transaction) => {
-        this.#addTransactionToView(transaction);
+        this.#addTransactionToView(transaction, bypass);
       });
     }
   };
@@ -109,7 +123,7 @@ export default class ContainerController {
     return transaction;
   };
 
-  toggleConnectionError(){
+  toggleConnectionError() {
     connectionError.classList.toggle("display-none");
   }
 
@@ -122,6 +136,7 @@ export default class ContainerController {
 
   //Toggles between form and transaction view
   switchContainer() {
+    messagesContainer.classList.toggle('display-none');
     transactionsContainer.classList.toggle("display-none");
     formContainer.classList.toggle("display-none");
     container.classList.toggle("scroll-none");
