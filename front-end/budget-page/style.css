@@ -169,7 +169,6 @@ progress {
     font-size: 23px;
     color: white;
 }
-
 .bottomMenu {
     position: fixed;
     width: 100%;
@@ -182,12 +181,20 @@ progress {
     justify-content: space-between;
     font-size: 1.3em;
 }
+.bottomMenu > i{
+    transition-duration: 0.2s;
+}
 
-.bottomMenu>i:last-of-type {
+.bottomMenu > i:active {
+    transform: scale(1.2);
+    transition-duration: 0.2s;
+}
+
+.bottomMenu > i:last-of-type{
     margin-right: 20px;
 }
 
-.bottomMenu>i:first-of-type {
+.bottomMenu > i:first-of-type{
     margin-left: 20px;
 }
 

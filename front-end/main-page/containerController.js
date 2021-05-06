@@ -49,10 +49,10 @@ export default class ContainerController {
       let now = new Date().getTime();
       let timeFromLastTap = now - lastTap;
       if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {
-        const id = event.target.id;
+        const id = event.target.id || event.target.offsetParent.id;
         await request.removeTransaction(id);
         document.getElementById(`${id}`).remove();
-        if (transactionsContainer.innerHTML != '') emptyMessage.classList.add('display-none'); //TODO fix 
+        if (transactionsContainer.innerText == '') emptyMessage.classList.remove('display-none');
         this.updateBalance(transaction, "remove");
         event.preventDefault();
       }

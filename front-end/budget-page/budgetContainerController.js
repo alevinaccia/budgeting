@@ -73,6 +73,7 @@ export default class budgetContainerController {
     generateBudgetView(category) {
         const budget = document.createElement('div');
         budget.classList.add('budgetCategory');
+        budget.style.background = `${category.color}`;
         const top = document.createElement('div');
         top.classList.add('top');
         const name = document.createElement('div');
@@ -88,6 +89,7 @@ export default class budgetContainerController {
         top.append(name);
 
         const colorInput = document.createElement('input');
+        colorInput.value = `${category.color}`;
         colorInput.setAttribute('type', 'color');
         top.append(colorInput);
 
@@ -141,6 +143,7 @@ export default class budgetContainerController {
     generateNonBudgetView(category) {
         const budget = document.createElement('div');
         budget.classList.add('nonBudgetCategory');
+        budget.style.background = `${category.color}`;
         const name = document.createElement('div');
         name.classList.add('name');
         name.innerText = category.name;
@@ -148,6 +151,7 @@ export default class budgetContainerController {
 
         const colorInput = document.createElement('input');
         colorInput.setAttribute('type', 'color');
+        colorInput.value = `${category.color}`;
         budget.append(colorInput);
 
         const catValue = document.createElement('span');
@@ -172,7 +176,6 @@ export default class budgetContainerController {
         let lastTap;
 
         budget.addEventListener('touchend', async (event) => {
-            console.log("pressed");
             let now = new Date().getTime();
             let timeFromLastTap = now - lastTap;
             if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {

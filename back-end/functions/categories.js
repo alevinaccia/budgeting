@@ -2,21 +2,22 @@ const Category = require('../model/category.js');
 
 const handle = async (name, creatorId, budgetValue, transactionValue) => {
     if (!await exists(name, creatorId)) {
-        return {information : await create(name, creatorId, budgetValue), new : true };
+        return { information: await create(name, creatorId, budgetValue), new: true };
     } else {
-        return {information : await Category.findOne({ 'name': name, 'creatorId': creatorId }), new : false};
+        update(name, creatorId, transactionValue);
+        return { information: await Category.findOne({ 'name': name, 'creatorId': creatorId }), new: false };
     }
 }
 
-const add = async (newcategory, creatorId) => {
+const add = async (newcategory) => {
     await new Category({
         'name': newcategory.name,
-        'creatorId': creatorId,
+        'creatorId': newcategory.creatorId,
         'color': newcategory.color || randomHex(),
         'budgetValue': Number(newcategory.budgetValue) > 0 ? Number(newcategory.budgetValue) : null,
-        'budget': newcategory.budget
+        'budget': newcategory.budget,
     }).save();
-    return await Category.findOne({ 'name': newcategory.name, 'creatorId': creatorId });
+    return await Category.findOne({ 'name': newcategory.name, 'creatorId': newcategory.creatorId });
 }
 
 const exists = async (name, creatorId) => {
@@ -29,21 +30,16 @@ const exists = async (name, creatorId) => {
 
 const update = async (name, creatorId, transactionValue) => {
     let category = await Category.findOne({ 'name': name, 'creatorId': creatorId });
-    if (category.budget) {
-        let value = Number(category.value) + Math.abs(Number(transactionValue));
-        await Category.findOneAndUpdate({ 'name': name, 'creatorId': creatorId },
-            { 'value': value }
-        )
-        return await Category.findOne({ 'name': name, 'creatorId': creatorId });
-    }else{
-        return null
-    }
-
+    let value = Number(category.value) + Math.abs(Number(transactionValue));
+    await Category.findOneAndUpdate({ 'name': name, 'creatorId': creatorId },
+        { 'value': value }
+    )
+    return await Category.findOne({ 'name': name, 'creatorId': creatorId });
 }
 
 const changeColor = async (id, color) => {
     return await Category.findByIdAndUpdate(id, {
-        'color' : color,
+        'color': color,
     })
 }
 
@@ -63,4 +59,4 @@ const randomHex = () => {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-module.exports = { create, get, exists, remove, handle, changeColor };
+module.exports = { add, get, exists, remove, handle, changeColor };

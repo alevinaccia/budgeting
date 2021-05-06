@@ -59,7 +59,7 @@ export default class FormController {
             JSON.stringify(
                 new Transaction(
                     valueInput.value,
-                    category.value,
+                    category.value || null,
                     message.value,
                     period,
                     this.type,
