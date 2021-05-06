@@ -1,9 +1,9 @@
 import Request from "../modules/reqManager.js";
 const request = new Request;
-const container = document.querySelector('.container');
+const container = document.querySelector('.categories');
 const showAllCheck = document.querySelector('.showAllCheckbox');
-const nameSortBTN = document.querySelector('.nameSortBTN');
-const fillSortBTN = document.querySelector('.fillSortBTN');
+const formContainer = document.querySelector('.formContainer');
+const sortSelect = document.querySelector('.sortSelect');
 
 export default class budgetContainerController {
     constructor() {
@@ -11,8 +11,9 @@ export default class budgetContainerController {
         this.addListners();
     }
 
-    switchContainer(){
-        
+    switchContainer() {
+        container.classList.toggle("display-none");
+        formContainer.classList.toggle("display-none");
     }
 
     createList(list = this.currentCategoriesShown, param = cat => cat) {
@@ -23,11 +24,11 @@ export default class budgetContainerController {
     }
 
     addElementToList(category) {
-        if(category.budget)
+        if (category.budget)
             this.generateBudgetView(category);
         else
             this.generateNonBudgetView(category);
-        
+
     }
 
     addListners() {
@@ -39,16 +40,18 @@ export default class budgetContainerController {
                 : (this.createList(allCategories, cat => cat.budget));
 
         });
-        nameSortBTN.addEventListener('click', () => {
-            container.innerHTML = '';
-            this.currentCategoriesShown.sort(this.nameSort);
-            this.createList();
-        });
-        fillSortBTN.addEventListener('click', () => {
-            container.innerHTML = '';
-            this.currentCategoriesShown.sort(this.fillSort);
-            this.createList();
-        });
+
+        sortSelect.addEventListener('change', () => {
+            if (sortSelect.value == 'fill') {
+                container.innerHTML = '';
+                this.currentCategoriesShown.sort(this.fillSort);
+                this.createList();
+            } else if (sortSelect.value == 'name') {
+                container.innerHTML = '';
+                this.currentCategoriesShown.sort(this.nameSort);
+                this.createList();
+            }
+        })
     }
 
     nameSort(a, b) {
@@ -69,47 +72,37 @@ export default class budgetContainerController {
 
     generateBudgetView(category) {
         const budget = document.createElement('div');
-        budget.setAttribute('class', 'budget');
-        const main = document.createElement('div');
-        main.setAttribute('class', 'main');
-        const icons = document.createElement('div');
-        icons.setAttribute('class', 'icons');
-        const i = document.createElement('i');
-        i.setAttribute('class', 'fas fa-trash');
-        i.setAttribute('id', category._id);
-        icons.append(i);
-        const upper = document.createElement('div');
-        const bottom = document.createElement('div');
-        upper.setAttribute('class', 'upper');
-        bottom.setAttribute('class', 'bottom');
-        const name = document.createElement('span');
-        name.innerText = category.name;
-        const inputContainer = document.createElement('span');
-        const input = document.createElement('input');
-        inputContainer.setAttribute('class', 'test');
-        input.setAttribute('type', 'number');
-        input.setAttribute('class', 'valueInput');
-        input.setAttribute('value', category.budgetValue);
-        input.style.background = 'transparent';
-        const colorContainer = document.createElement('span');
+        budget.classList.add('budgetCategory');
+        const top = document.createElement('div');
+        top.classList.add('top');
+        const name = document.createElement('div');
+        name.classList.add('name');
+        const title = document.createElement('span');
+        title.classList.add('catTitle');
+        title.innerText = category.name;
+        const subTitle = document.createElement('span')
+        subTitle.classList.add('catSubtitle');
+        //TODO category recursive period
+        name.append(title);
+        name.append(subTitle);
+        top.append(name);
+
         const colorInput = document.createElement('input');
         colorInput.setAttribute('type', 'color');
-        colorInput.setAttribute('class', 'colorInput');
-        colorInput.value = category.color
+        top.append(colorInput);
+
+        const catValue = document.createElement('span');
+        catValue.classList.add('catValue');
+        catValue.innerText = `${category.value}€`;
+        top.append(catValue);
+
+        budget.append(top);
+
         const progress = document.createElement('progress');
-        progress.max = category.budgetValue || 0;
-        progress.value = category.value; //
+        progress.max = category.budgetValue;
+        progress.value = category.value;
 
-        //Listners
-
-        i.addEventListener('click', async () => {
-            let res = await request.removeCategory(category._id);
-            if (res) {
-                let deleteIndex = this.currentCategoriesShown.findIndex(arrCategory => arrCategory._id == category._id);
-                this.currentCategoriesShown.splice(deleteIndex, 1);
-                document.getElementById(`${category._id}`).remove();
-            }
-        })
+        budget.append(progress);
 
         colorInput.addEventListener('input', () => {
             budget.style.background = colorInput.value;
@@ -125,57 +118,42 @@ export default class budgetContainerController {
             //TODO call this once the pace is offloaded, and change all categories changed.
         });
 
+        let lastTap;
 
-        inputContainer.appendChild(input);
-        colorContainer.appendChild(colorInput);
-        inputContainer.innerHTML += "€";
+        budget.addEventListener('touchend', async (event) => {
+            console.log("pressed");
+            let now = new Date().getTime();
+            let timeFromLastTap = now - lastTap;
+            if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {
+                const id = event.target.id;
+                await request.removeCategory(id);
+                document.getElementById(`${id}`).remove();
+                event.preventDefault();
+            }
+            lastTap = new Date().getTime();
+        })
 
-        upper.appendChild(name);
-        upper.appendChild(inputContainer);
-        upper.appendChild(colorContainer);
-        bottom.appendChild(progress);
-
-        main.appendChild(upper);
-        main.appendChild(bottom);
-
-        budget.appendChild(main);
-        budget.appendChild(icons);
-
-        budget.style.background = category.color;
-        budget.setAttribute('id', category._id);
+        budget.id = category._id;
 
         container.appendChild(budget);
     }
 
-    generateNonBudgetView(category){
+    generateNonBudgetView(category) {
         const budget = document.createElement('div');
-        budget.setAttribute('class', 'budget');
-        const main = document.createElement('div');
-        main.setAttribute('class', 'main');
-        const icons = document.createElement('div');
-        icons.setAttribute('class', 'icons');
-        const i = document.createElement('i');
-        i.setAttribute('class', 'fas fa-trash');
-        i.setAttribute('id', category._id);
-        icons.append(i);
-        const name = document.createElement('span');
+        budget.classList.add('nonBudgetCategory');
+        const name = document.createElement('div');
+        name.classList.add('name');
         name.innerText = category.name;
-        const colorContainer = document.createElement('span');
+        budget.append(name);
+
         const colorInput = document.createElement('input');
         colorInput.setAttribute('type', 'color');
-        colorInput.setAttribute('class', 'colorInput');
-        colorInput.value = category.color
+        budget.append(colorInput);
 
-        //Listners
-
-        i.addEventListener('click', async () => {
-            let res = await request.removeCategory(category._id);
-            if (res) {
-                let deleteIndex = this.currentCategoriesShown.findIndex(arrCategory => arrCategory._id == category._id);
-                this.currentCategoriesShown.splice(deleteIndex, 1);
-                document.getElementById(`${category._id}`).remove();
-            }
-        })
+        const catValue = document.createElement('span');
+        catValue.classList.add('catValue');
+        catValue.innerText = `${category.value}€`;
+        budget.append(catValue);
 
         colorInput.addEventListener('input', () => {
             budget.style.background = colorInput.value;
@@ -191,16 +169,22 @@ export default class budgetContainerController {
             //TODO call this once the pace is offloaded, and change all categories changed.
         });
 
-        colorContainer.appendChild(colorInput);
+        let lastTap;
 
-        main.appendChild(name);
-        main.appendChild(colorContainer);
+        budget.addEventListener('touchend', async (event) => {
+            console.log("pressed");
+            let now = new Date().getTime();
+            let timeFromLastTap = now - lastTap;
+            if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {
+                const id = event.target.id;
+                await request.removeCategory(id);
+                document.getElementById(`${id}`).remove();
+                event.preventDefault();
+            }
+            lastTap = new Date().getTime();
+        })
 
-        budget.appendChild(main);
-        budget.appendChild(icons);
-
-        budget.style.background = category.color;
-        budget.setAttribute('id', category._id);
+        budget.id = category._id;
 
         container.appendChild(budget);
     }

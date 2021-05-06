@@ -4,53 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="../../assets/fav.png">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../generalStyle.css">
-    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3da58c21ae.js" crossorigin="anonymous"></script>
     <title>Budget yourself!</title>
 </head>
 
 <body>
-    <div class="backgrond-nav">
-        <nav class="main-nav">
-            <img src="../../assets/fav.png">
-            <ul class="nav-list">
-                <li class="not-selected" id="main">Main</li>
-                <li class="not-selected" id="savings">Savings</li>
-                <li class="selected" id="budget">Budget</li>
-                <li class="not-selected" id="settings">Settings</li>
-            </ul>
-        </nav>
+    <span class="pageTitle">Budget</span>
+    <div class="budgetOverviewStatusWrapper">
+        <span class="title">Budget overview</span>
+        <h1 class="overview">100 of 200€
+        </h1>
     </div>
-    <hr>
-    <div class="main">
-        <section class="operators">
-            <ul>
-                <li>
-                    <input type="checkbox" class="showAllCheckbox" name="showAllCheckbox">
-                    <label for="showAllCheckbox">Show all categories</label>
-                </li>
-                <li>
-                    <input type="button" value="Sort by Name" class="nameSortBTN">
-                </li>
-                <li>
-                    <input type="button" value="Sort by filling" class="fillSortBTN">
-                </li>
-            </ul>
-        </section>
-        <section class="container">
-        </section>
-        <section>
-
-        </section>
-
-        <button class="addBTN">Add Category</button>
-    </div>
+    <section class="container">
+        <div class="settingsContainer">
+            <select class="sortSelect">
+                <option value="fill">Sort by fill</option>
+                <option value="name">Sort by name</option>
+            </select>
+            <span class="checkWrapper">
+                <input type="checkbox" name="showAll" class="showAllCheckbox">
+                <label for="showAll">Show all</label>
+            </span>
+        </div>
+        <div class="categories">
+            <!--<div class="budgetCategory">
+                <div class="top">
+                    <div class="name">
+                        <span class="catTitle">Benzina</span>
+                        <span class="catSubtitle">(weekly)</span>
+                    </div>
+                    <input type="color">
+                    <span class="catValue">100€</span>
+                </div>
+                <progress id="file" value="32" max="100"> 32% </progress>
+            </div>
+            <div class="nonBudgetCategory">
+                <div class="name">Test</div>
+                <input type="color">
+                <span class="catValue">100€</span>
+            </div>-->
+        </div>
+        <div class="formContainer display-none">
+            <form class="form">
+                <input type="text" placeholder="name" name="name">
+                <input type="color" name="color">
+                <input type="checkbox" name="budget">
+                <label for="check">Budget</label>    
+            </form>
+        </div>
+    </section>
+    <button class="addBTN">Add Category</button>
+    <section class="bottomMenu">
+        <i class="fas fa-home fa-2x"></i>
+        <i class="fas fa-chart-line fa-2x"></i>
+        <i class="fas fa-calculator fa-2x"></i>
+        <i class="fas fa-piggy-bank fa-2x"></i>
+        <i class="fas fa-cog fa-2x"></i>
+    </section>
     <script type="module" src="pageManger.js"></script>
-    <script src="../pageChanger.js"></script>
 </body>
 
 </html>

@@ -3,6 +3,10 @@ const router = express.Router();
 const categories = require('../functions/categories.js');
 
 
+route.post('/add', async () => {
+    await categories.add (req.headers.category, '1234').then(newcat => res.json(newcat)) //TODO HARDcoded creator
+})
+
 router.get('/get', async (req, res) => {
     await categories.get(req.headers.creatorid).then(opt => res.json(opt));
 })

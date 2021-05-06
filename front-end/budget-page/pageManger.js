@@ -3,6 +3,7 @@ import budgetContainerController from "./budgetContainerController.js";
 import Form from "./formController.js"
 
 const containerController = new budgetContainerController();
+const formContainer = document.querySelector('.formContainer')
 const request = new Request;
 const form = new Form;
 const addBTN = document.querySelector('.addBTN');

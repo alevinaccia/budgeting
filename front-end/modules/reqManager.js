@@ -64,6 +64,21 @@ export default class RequestManager {
         return toRet;
     }
 
+    async addCategory(content){
+        let toReturn;
+        await fetch(URL + '/categories/add', {
+            method: 'POST',
+            headers: {
+                'category' : content,
+            }
+        }).then(res => res.json())
+            .then(data => {
+                if (data.message) toReturn = data;
+                else toReturn = data;
+            })
+        return toReturn;
+    }
+
     async removeCategory(id) {
         let returnValue;
         await fetch(URL + '/categories/delete', {

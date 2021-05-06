@@ -8,15 +8,15 @@ const handle = async (name, creatorId, budgetValue, transactionValue) => {
     }
 }
 
-const create = async (name, creatorId, budgetValue) => {
+const add = async (newcategory, creatorId) => {
     await new Category({
-        'name': name,
+        'name': newcategory.name,
         'creatorId': creatorId,
-        'color': randomHex(),
-        'budgetValue': Number(budgetValue) > 0 ? Number(budgetValue) : null,
-        'budget': Number(budgetValue) > 0 ? true : false
+        'color': newcategory.color || randomHex(),
+        'budgetValue': Number(newcategory.budgetValue) > 0 ? Number(newcategory.budgetValue) : null,
+        'budget': newcategory.budget
     }).save();
-    return await Category.findOne({ 'name': name, 'creatorId': creatorId });
+    return await Category.findOne({ 'name': newcategory.name, 'creatorId': creatorId });
 }
 
 const exists = async (name, creatorId) => {
