@@ -9,6 +9,7 @@ const form = new Form;
 const addBTN = document.querySelector('.addBTN');
 
 window.onload = async () => {
+    await containerController.calculateGeneralSituation();
     containerController.createList(await request.getAllCategories(), cat => cat.budget); //TODO creator id hard coded
 }
 

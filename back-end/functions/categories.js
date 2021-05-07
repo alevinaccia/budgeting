@@ -2,20 +2,33 @@ const Category = require('../model/category.js');
 
 const handle = async (name, creatorId, budgetValue, transactionValue) => {
     if (!await exists(name, creatorId)) {
-        return { information: await create(name, creatorId, budgetValue), new: true };
+        return { information: await createFromTransaction(name, creatorId, budgetValue), new: true };
     } else {
         update(name, creatorId, transactionValue);
         return { information: await Category.findOne({ 'name': name, 'creatorId': creatorId }), new: false };
     }
 }
 
+const createFromTransaction = async (name, creatorId, budgetValue) => {
+    await new Category({
+        'name': name,
+        'creatorId': creatorId,
+        'color': randomHex(),
+        'budgetValue': Number(budgetValue) > 0 ? Number(budgetValue) : null,
+        'budget': Number(budgetValue) > 0 ? true : false,
+    }).save();
+    return await Category.findOne({ 'name': name, 'creatorId': creatorId });
+}
+
 const add = async (newcategory) => {
+    console.log(newcategory);
     await new Category({
         'name': newcategory.name,
         'creatorId': newcategory.creatorId,
         'color': newcategory.color || randomHex(),
-        'budgetValue': Number(newcategory.budgetValue) > 0 ? Number(newcategory.budgetValue) : null,
+        'budgetValue': newcategory.budget ? Number(newcategory.budgetValue) : null,
         'budget': newcategory.budget,
+        'budgetPeriod' : newcategory.budgetPeriod
     }).save();
     return await Category.findOne({ 'name': newcategory.name, 'creatorId': newcategory.creatorId });
 }

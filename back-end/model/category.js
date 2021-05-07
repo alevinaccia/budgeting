@@ -23,6 +23,10 @@ const categorieSchema = new mongoose.Schema({
     budgetValue:{
         type : Number,
         default : null
+    },
+    budgetPeriod:{
+        type : String,
+        default: null
     }
 })
 

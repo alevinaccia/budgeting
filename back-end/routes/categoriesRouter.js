@@ -4,7 +4,7 @@ const categories = require('../functions/categories.js');
 
 
 router.post('/add', async (req, res) => {
-    await categories.add (JSON.parse(req.headers.category)).then(newcat => res.json(newcat)) //TODO HARDcoded creator
+    await categories.add(JSON.parse(req.headers.category)).then(newcat => res.json(newcat)) //TODO HARDcoded creator
 })
 
 router.get('/get', async (req, res) => {

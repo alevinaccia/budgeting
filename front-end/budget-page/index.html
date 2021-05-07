@@ -26,7 +26,7 @@
                 <option value="name">Sort by name</option>
             </select>
             <span class="checkWrapper">
-                <input type="checkbox" name="showAll" class="showAllCheckbox">
+                <input type="checkbox" name="showAll" id="showAll" class="showAllCheckbox">
                 <label for="showAll">Show all</label>
             </span>
         </div>
@@ -50,10 +50,22 @@
         </div>
         <div class="formContainer display-none">
             <form class="form">
-                <input type="text" placeholder="name" name="name">
-                <input type="color" name="color">
-                <input type="checkbox" name="budget">
-                <label for="check">Budget</label>    
+                <span class="firstLine">
+                    <input type="text" name="name" placeholder="name" class="nameInput">
+                    <input type="color" name="color">
+                </span>
+                <span class="secondLine">
+                    <input type="checkbox" name="budget" class="budgetCheckbox">
+                    <label for="check">Budget</label>
+                </span>
+                <span class="thirdLine display-none">
+                    <select name="period" class="period">
+                        <option value="none">Period</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    <input type="number" placeholder="Value" name="value">
+                </span>
             </form>
         </div>
     </section>
@@ -63,7 +75,7 @@
         <i class="fas fa-chart-line fa-2x" id="charts"></i>
         <i class="fas fa-calculator fa-2x" id="budget"></i>
         <i class="fas fa-piggy-bank fa-2x " id="savings"></i>
-        <i class="fas fa-cog fa-2x "id="settings"></i>
+        <i class="fas fa-cog fa-2x " id="settings"></i>
     </section>
     <script type="module" src="pageManger.js"></script>
     <script src="../pageChanger.js"></script>

@@ -1,14 +1,41 @@
 import Request from "../modules/reqManager.js";
+
 const request = new Request;
 const container = document.querySelector('.categories');
 const showAllCheck = document.querySelector('.showAllCheckbox');
 const formContainer = document.querySelector('.formContainer');
 const sortSelect = document.querySelector('.sortSelect');
+const budgetCheckbox = document.querySelector('.budgetCheckbox');
+const budgetSettings = document.querySelector('.thirdLine');
+const overview = document.querySelector('.overview');
 
 export default class budgetContainerController {
     constructor() {
         this.currentCategoriesShown = [];
         this.addListners();
+        this.partial = 0;
+        this.total = 0;
+        this.first = true;
+    }
+
+    async calculateGeneralSituation() {
+        const budgeted = Array.from(await request.getAllCategories()).filter(e => e.budget);
+        budgeted.forEach(cat => {
+            this.total += Number(cat.budgetValue);
+            this.partial += Number(cat.value);
+        })
+        overview.innerHTML = `${this.partial} of ${this.total}€`;
+    }
+
+    updateGeneralSituation(budgetValue, usage) {
+        if (usage == 'add') {
+            this.total += Number(budgetValue);
+            overview.innerHTML = `${this.partial} of ${this.total}€`;
+        }
+        else {
+            this.total -= Number(budgetValue);
+            overview.innerHTML = `${this.partial} of ${this.total}€`;
+        }
     }
 
     switchContainer() {
@@ -21,6 +48,7 @@ export default class budgetContainerController {
         this.currentCategoriesShown.forEach((category) => {
             this.addElementToList(category)
         })
+        this.first = false;
     }
 
     addElementToList(category) {
@@ -28,17 +56,16 @@ export default class budgetContainerController {
             this.generateBudgetView(category);
         else
             this.generateNonBudgetView(category);
-
     }
 
     addListners() {
-        showAllCheck.addEventListener('input', async () => {
+        showAllCheck.addEventListener('change', async (event) => {
+            event.stopImmediatePropagation();
             container.innerHTML = '';
-            const allCategories = Array.from(await request.getAllCategories());
+            let categories = await request.getAllCategories();
             showAllCheck.checked ?
-                (this.createList(allCategories))
-                : (this.createList(allCategories, cat => cat.budget));
-
+                (this.createList(Array.from(categories)))
+                : (this.createList(Array.from(categories), cat => cat.budget));
         });
 
         sortSelect.addEventListener('change', () => {
@@ -51,6 +78,11 @@ export default class budgetContainerController {
                 this.currentCategoriesShown.sort(this.nameSort);
                 this.createList();
             }
+        });
+
+        budgetCheckbox.addEventListener('change', (event) => {
+            event.stopImmediatePropagation();
+            budgetSettings.classList.toggle('display-none');
         })
     }
 
@@ -71,6 +103,9 @@ export default class budgetContainerController {
     }
 
     generateBudgetView(category) {
+        if (!this.first)
+            this.updateGeneralSituation(category.budgetValue, 'add');
+
         const budget = document.createElement('div');
         budget.classList.add('budgetCategory');
         budget.style.background = `${category.color}`;
@@ -128,7 +163,10 @@ export default class budgetContainerController {
             let timeFromLastTap = now - lastTap;
             if ((timeFromLastTap < 600) && (timeFromLastTap > 0)) {
                 const id = event.target.id;
-                await request.removeCategory(id);
+                try {
+                    await request.removeCategory(id);
+                    this.updateGeneralSituation(category.budgetValue, 'remove');
+                } catch (error) { }
                 document.getElementById(`${id}`).remove();
                 event.preventDefault();
             }

@@ -53,30 +53,22 @@ export default class RequestManager {
     }
 
     async getAllCategories() {
-        let toRet;
-        await fetch(URL + '/categories/get', {
+        return await fetch(URL + '/categories/get', {
             method: 'GET',
             headers: {
                 'creatorId': '1234'
             }
-        }).then(res => res.json())
-            .then(data => toRet = data);
-        return toRet;
+        }).then(res => res.json());
     }
 
     async addCategory(content){
-        let toReturn;
-        await fetch(URL + '/categories/add', {
+        return await fetch(URL + '/categories/add', {
             method: 'POST',
             headers: {
                 'category' : content,
             }
         }).then(res => res.json())
-            .then(data => {
-                if (data.message) toReturn = data;
-                else toReturn = data;
-            })
-        return toReturn;
+            .then(data => data)
     }
 
     async removeCategory(id) {

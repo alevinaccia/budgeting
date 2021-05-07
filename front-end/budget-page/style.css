@@ -114,7 +114,7 @@ body {
     flex-direction: column;
 }
 
-.categories{
+.categories {
     position: relative;
     overflow-y: scroll;
     height: 81%;
@@ -153,8 +153,65 @@ progress {
     margin-bottom: 10px;
 }
 
-.nonBudgetCategory > .name{
+.nonBudgetCategory>.name {
     margin-left: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.firstLine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.secondLine {
+    font-family: Inter;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.thirdLine {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thirdLine > * {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Inter;
+    width: 60%;
+    outline: none;
+    margin: 10px;
+}
+
+.budgetCheckbox {
+    margin: 10px;
+}
+
+.nameInput {
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Inter;
+    width: 40%;
+    outline: none;
+    margin: 10px;
 }
 
 .addBTN {
@@ -169,6 +226,7 @@ progress {
     font-size: 23px;
     color: white;
 }
+
 .bottomMenu {
     position: fixed;
     width: 100%;
@@ -181,23 +239,24 @@ progress {
     justify-content: space-between;
     font-size: 1.3em;
 }
-.bottomMenu > i{
+
+.bottomMenu>i {
     transition-duration: 0.2s;
 }
 
-.bottomMenu > i:active {
+.bottomMenu>i:active {
     transform: scale(1.2);
     transition-duration: 0.2s;
 }
 
-.bottomMenu > i:last-of-type{
+.bottomMenu>i:last-of-type {
     margin-right: 20px;
 }
 
-.bottomMenu > i:first-of-type{
+.bottomMenu>i:first-of-type {
     margin-left: 20px;
 }
 
-.display-none{
+.display-none {
     display: none;
 }
